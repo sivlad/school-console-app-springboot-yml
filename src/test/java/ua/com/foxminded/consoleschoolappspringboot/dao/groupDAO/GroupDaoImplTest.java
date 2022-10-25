@@ -132,6 +132,7 @@ public class GroupDaoImplTest {
         assertEquals(expectedResult,
                 actualResult,
                 "Execute method update from groups");
+
     }
 
     @Test
