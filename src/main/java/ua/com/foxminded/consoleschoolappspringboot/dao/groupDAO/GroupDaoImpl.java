@@ -67,7 +67,7 @@ public class GroupDaoImpl implements GroupDao{
     public void update(Group group) {
 
         try {
-            jdbcTemplate.update(UPDATE_GROUP, group.getGroupName());
+            jdbcTemplate.update(UPDATE_GROUP, group.getGroupName(),group.getId());
         } catch (DataAccessException e) {
             LOGGER.info(e.getMessage());
         }

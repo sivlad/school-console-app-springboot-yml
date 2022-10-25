@@ -67,7 +67,7 @@ public class CourseDaoImpl implements CourseDao {
     @Override
     public void update(Course course) {
         try {
-            jdbcTemplate.update(UPDATE_COURSE, course.getCourseName(), course.getCourseDescription());
+            jdbcTemplate.update(UPDATE_COURSE, course.getCourseName(), course.getCourseDescription(),course.getId());
         } catch (DataAccessException e) {
             LOGGER.info(e.getMessage());
         }
