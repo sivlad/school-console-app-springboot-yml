@@ -1,25 +1,64 @@
 package ua.com.foxminded.consoleschoolappspringboot.dao.courseDAO;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.testcontainers.containers.PostgreSQLContainer;
+import ua.com.foxminded.consoleschoolappspringboot.AppStarter;
+import ua.com.foxminded.consoleschoolappspringboot.ConsoleSchoolAppSpringbootApplication;
+import ua.com.foxminded.consoleschoolappspringboot.menu.MenuExecutor;
 import ua.com.foxminded.consoleschoolappspringboot.model.Course;
+import ua.com.foxminded.consoleschoolappspringboot.service.SchoolInitializer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
-@Sql({"/schema.sql", "/test-data.sql"})
+@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ActiveProfiles("test")
+@Sql(scripts = {"classpath:schema.sql", "classpath:test-data.sql"})
+@ContextConfiguration(classes = ConsoleSchoolAppSpringbootApplication.class, initializers = ConfigDataApplicationContextInitializer.class)
 class CourseDaoImplTest {
+
+//    @Autowired
+//    @Mock
+//    AppStarter appStarter;
 
     private List<Course> expectedResult = new ArrayList<>();
 
+    private static final PostgreSQLContainer<?> postgresqlContainer;
+
+    static {
+        postgresqlContainer = new PostgreSQLContainer<>("postgres:14.5-alpine");
+        postgresqlContainer.start();
+    }
+
+    @DynamicPropertySource
+    public static void postgresqlProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgresqlContainer::getJdbcUrl);
+        registry.add("spring.datasource.username", postgresqlContainer::getUsername);
+        registry.add("spring.datasource.password", postgresqlContainer::getPassword);
+    }
 
     @Autowired
-    CourseDao courseDao;
+    private CourseDao courseDao;
 
     @Test
     void findAll_ShouldReturnListOfCourses_WhenCalled() {

@@ -1,9 +1,20 @@
 package ua.com.foxminded.consoleschoolappspringboot.dao.groupDAO;
 
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.testcontainers.containers.PostgreSQLContainer;
+import ua.com.foxminded.consoleschoolappspringboot.ConsoleSchoolAppSpringbootApplication;
 import ua.com.foxminded.consoleschoolappspringboot.model.Group;
 
 import java.util.ArrayList;
@@ -12,12 +23,31 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@Sql({"/schema.sql", "/test-data.sql"})
+@ExtendWith(SpringExtension.class)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ActiveProfiles("test")
+@Sql(scripts = {"classpath:schema.sql", "classpath:test-data.sql"})
+@ContextConfiguration(classes = ConsoleSchoolAppSpringbootApplication.class, initializers = ConfigDataApplicationContextInitializer.class)
 public class GroupDaoImplTest {
+
+    private static final PostgreSQLContainer<?> postgresqlContainer;
+
+    static {
+        postgresqlContainer = new PostgreSQLContainer<>("postgres:14.5-alpine");
+        postgresqlContainer.start();
+    }
+
+    @DynamicPropertySource
+    public static void postgresqlProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgresqlContainer::getJdbcUrl);
+        registry.add("spring.datasource.username", postgresqlContainer::getUsername);
+        registry.add("spring.datasource.password", postgresqlContainer::getPassword);
+    }
 
     @Autowired
     GroupDao groupDao;
 
+    @Order(1)
     @Test
     void findAll_ShouldReturnListOfGroups_WhenCalled() {
         List<Group> expectedResult = new ArrayList<>();
@@ -41,6 +71,7 @@ public class GroupDaoImplTest {
                 "Execute method findAll from groups");
     }
 
+    @Order(2)
     @Test
     void save_ShouldSaveGroupAndThenFindAllReturnListOfGroupsWithAddedGroup_WhenCalled() {
         List<Group> expectedResult = new ArrayList<>();
@@ -69,6 +100,7 @@ public class GroupDaoImplTest {
                 "Execute method save from groups");
     }
 
+    @Order(3)
     @Test
     void saveCourseList_ShouldSaveCoursesAndThenFindAllReturnListOfCoursesWithAddedCourses_WhenCalled() {
         List<Group> addedGroup = new ArrayList<>();
@@ -105,6 +137,7 @@ public class GroupDaoImplTest {
                 "Execute method saveCourseList from groups");
     }
 
+    @Order(4)
     @Test
     void update_ShouldUpdateSelectedGroupAndThenFindAllReturnListOfGroupsWithUpdatedGroup_WhenCalled() {
 
@@ -134,6 +167,7 @@ public class GroupDaoImplTest {
                 "Execute method update from groups");
     }
 
+    @Order(5)
     @Test
     void delete_ShouldDeleteSelectedGroupAndThenFindAllReturnListOfGroupsWithoutDeletedGroup_WhenCalled() {
 
@@ -159,6 +193,7 @@ public class GroupDaoImplTest {
                 "Execute method delete from groups");
     }
 
+    @Order(6)
     @Test
     void deleteAll_ShouldDeleteAllGroupsAndThenFindAllReturnEmptyListOfGroups_WhenCalled() {
 

@@ -1,6 +1,9 @@
 package ua.com.foxminded.consoleschoolappspringboot.service;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ua.com.foxminded.consoleschoolappspringboot.AppStarter;
 import ua.com.foxminded.consoleschoolappspringboot.exception.FileException;
 
 import java.io.IOException;
@@ -15,6 +18,8 @@ public class TxtFileReader {
 
     private final String filename;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AppStarter.class);
+
     public TxtFileReader(String filename) {
         this.filename = filename;
     }
@@ -25,6 +30,7 @@ public class TxtFileReader {
         try (Stream<String> lineStream = Files.lines(Paths.get(property.getProperty(filename)))) {
             return lineStream.collect(Collectors.toList());
         } catch (IOException exception) {
+            LOGGER.info(exception.getMessage());
             throw new FileException("Error with file");
         }
     }

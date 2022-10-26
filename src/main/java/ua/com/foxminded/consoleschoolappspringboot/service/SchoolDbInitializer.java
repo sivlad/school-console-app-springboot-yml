@@ -1,7 +1,10 @@
 package ua.com.foxminded.consoleschoolappspringboot.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.com.foxminded.consoleschoolappspringboot.AppStarter;
 import ua.com.foxminded.consoleschoolappspringboot.dao.courseDAO.CourseDao;
 import ua.com.foxminded.consoleschoolappspringboot.dao.groupDAO.GroupDao;
 import ua.com.foxminded.consoleschoolappspringboot.dao.studentDAO.StudentDao;
@@ -35,6 +38,8 @@ public class SchoolDbInitializer {
 
     @Autowired
     private StudentsToCoursesDaoImpl studentsToCoursesDao;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AppStarter.class);
 
     private static final Random RANDOM_GENERATOR = new Random();
 
@@ -77,6 +82,7 @@ public class SchoolDbInitializer {
             }
             courseDao.saveCourseList(courses);
         } catch (IOException exception) {
+            LOGGER.info(exception.getMessage());
             throw new FileException("Error with schema.sql");
         }
     }

@@ -1,7 +1,7 @@
-DROP TABLE studentsandcourses;
-DROP TABLE students;
-DROP TABLE groups;
-DROP TABLE courses;
+DROP TABLE IF EXISTS studentsandcourses;
+DROP TABLE IF EXISTS students;
+DROP TABLE IF EXISTS groups;
+DROP TABLE IF EXISTS courses;
 
 CREATE TABLE IF NOT EXISTS groups (
     id SERIAL PRIMARY KEY,
