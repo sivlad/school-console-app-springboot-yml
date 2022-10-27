@@ -100,7 +100,7 @@ public class MenuPublisher {
         System.out.println(resultString.toString());
     }
 
-    public void showCoursesList() {
+    public String showCoursesList() {
         List<Course> courses = courseDao.findAll();
 
         int menuLine = 1;
@@ -122,7 +122,7 @@ public class MenuPublisher {
         resultString.append(SEPARATOR.repeat(60))
                 .append(END_LINE);
 
-        System.out.println(resultString.toString());
+        return resultString.toString();
     }
 
     public void showCoursesListStudent(long studentId) {
@@ -150,7 +150,7 @@ public class MenuPublisher {
         System.out.println(resultString.toString());
     }
 
-    public static void showStringList(List<String> sourceStringList) {
+    public static String showStringList(List<String> sourceStringList) {
         int menuLine = 1;
         StringBuilder resultString = new StringBuilder();
 
@@ -166,6 +166,6 @@ public class MenuPublisher {
         resultString.append(SEPARATOR.repeat(60))
                 .append(END_LINE);
 
-        System.out.println(resultString.toString());
+        return resultString.toString();
     }
 }

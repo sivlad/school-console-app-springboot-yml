@@ -1,45 +1,33 @@
 package ua.com.foxminded.consoleschoolappspringboot.dao.courseDAO;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.PostgreSQLContainer;
 import ua.com.foxminded.consoleschoolappspringboot.AppStarter;
 import ua.com.foxminded.consoleschoolappspringboot.ConsoleSchoolAppSpringbootApplication;
-import ua.com.foxminded.consoleschoolappspringboot.menu.MenuExecutor;
 import ua.com.foxminded.consoleschoolappspringboot.model.Course;
-import ua.com.foxminded.consoleschoolappspringboot.service.SchoolInitializer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
-@ExtendWith(SpringExtension.class)
-@ExtendWith(MockitoExtension.class)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
 @Sql(scripts = {"classpath:schema.sql", "classpath:test-data.sql"})
 @ContextConfiguration(classes = ConsoleSchoolAppSpringbootApplication.class, initializers = ConfigDataApplicationContextInitializer.class)
 class CourseDaoImplTest {
 
-//    @Autowired
-//    @Mock
-//    AppStarter appStarter;
+    @MockBean
+    AppStarter appStarter;
 
     private List<Course> expectedResult = new ArrayList<>();
 

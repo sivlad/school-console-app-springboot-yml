@@ -24,8 +24,8 @@ public class AppStarter {
     public ApplicationRunner init() {
         LOGGER.info("ApplicationRunner has started");
         return args -> {
- //           schoolInitializer.schoolInitialize();
- //           menuExecutor.startMenu();
+            schoolInitializer.schoolInitialize();
+            menuExecutor.startMenu();
         };
     }
 }

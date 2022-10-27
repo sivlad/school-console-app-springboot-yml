@@ -2,18 +2,17 @@ package ua.com.foxminded.consoleschoolappspringboot.dao.groupDAO;
 
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.PostgreSQLContainer;
+import ua.com.foxminded.consoleschoolappspringboot.AppStarter;
 import ua.com.foxminded.consoleschoolappspringboot.ConsoleSchoolAppSpringbootApplication;
 import ua.com.foxminded.consoleschoolappspringboot.model.Group;
 
@@ -23,8 +22,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@ExtendWith(SpringExtension.class)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
 @Sql(scripts = {"classpath:schema.sql", "classpath:test-data.sql"})
 @ContextConfiguration(classes = ConsoleSchoolAppSpringbootApplication.class, initializers = ConfigDataApplicationContextInitializer.class)
@@ -43,6 +40,9 @@ public class GroupDaoImplTest {
         registry.add("spring.datasource.username", postgresqlContainer::getUsername);
         registry.add("spring.datasource.password", postgresqlContainer::getPassword);
     }
+
+    @MockBean
+    AppStarter appStarter;
 
     @Autowired
     GroupDao groupDao;

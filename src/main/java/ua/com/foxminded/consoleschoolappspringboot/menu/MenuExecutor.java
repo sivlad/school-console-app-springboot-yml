@@ -38,10 +38,16 @@ public class MenuExecutor {
         int choice = scanner.nextInt();
 
         if (choice == 1) {
-            menuItem1Execute();
+            System.out.println("Please, enter the number of students");
+            int numberOfStudents = scanner.nextInt();
+            System.out.println(menuItem1Execute(numberOfStudents));
         }
         if (choice == 2) {
-            menuItem2Execute();
+            System.out.println(publisher.showCoursesList());
+            System.out.println("Please, enter the courses name");
+            String courseName = scanner.nextLine();
+            courseName = scanner.nextLine();
+            System.out.println(menuItem2Execute(courseName));
         }
         if (choice == 3) {
             menuItem3Execute();
@@ -57,23 +63,14 @@ public class MenuExecutor {
         }
     }
 
-    public void menuItem1Execute() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please, enter the number of students");
-        int numberOfStudents = scanner.nextInt();
-
+    public String menuItem1Execute(int numberOfStudents) {
         List<String> groups = groupDao.findAllGroupsWithLessOreEqualStudentsNumber(numberOfStudents);
 
         System.out.println("Groups with less ore equal students nembers are");
-        showStringList(groups);
+        return showStringList(groups);
     }
 
-    public void menuItem2Execute() {
-        publisher.showCoursesList();
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please, enter the courses name");
-        String courseName = scanner.nextLine();
-
+    public String menuItem2Execute(String courseName) {
         List<Student> students = studentDao.findAllFromCourse(courseName);
 
         List<String> studentsList = students.stream().collect(
@@ -81,7 +78,7 @@ public class MenuExecutor {
                 (list, item) -> list.add(item.getFirstName() + " " + item.getLastName()),
                 (list1, list2) -> list1.addAll(list2));
 
-        showStringList(studentsList);
+        return showStringList(studentsList);
     }
 
     public void menuItem3Execute() {
