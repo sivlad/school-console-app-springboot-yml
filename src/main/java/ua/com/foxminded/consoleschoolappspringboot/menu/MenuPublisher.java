@@ -41,7 +41,7 @@ public class MenuPublisher {
     @Autowired
     private StudentsToCoursesDaoImpl studentsToCoursesDao;
 
-    public static void showMenu() {
+    public static String showMenu() {
         int menuLine = 1;
         StringBuilder resultString = new StringBuilder();
         resultString.append(ACTION_STRING)
@@ -76,10 +76,10 @@ public class MenuPublisher {
                 .append(END_LINE)
                 .append(INVATION_STRING);
 
-        System.out.println(resultString.toString());
+        return resultString.toString();
     }
 
-    public void showGroupList() {
+    public String showGroupList() {
         List<Group> groups = groupDao.findAll();
         int menuLine = 1;
         StringBuilder resultString = new StringBuilder();
@@ -97,7 +97,7 @@ public class MenuPublisher {
         resultString.append(SEPARATOR.repeat(60))
                 .append(END_LINE);
 
-        System.out.println(resultString.toString());
+        return resultString.toString();
     }
 
     public String showCoursesList() {
@@ -125,7 +125,7 @@ public class MenuPublisher {
         return resultString.toString();
     }
 
-    public void showCoursesListStudent(long studentId) {
+    public String showCoursesListStudent(long studentId) {
         List<Course> courses = courseDao.findAllCoursesFromStudent(studentId);
 
         int menuLine = 1;
@@ -147,7 +147,7 @@ public class MenuPublisher {
         resultString.append(SEPARATOR.repeat(60))
                 .append(END_LINE);
 
-        System.out.println(resultString.toString());
+        return resultString.toString();
     }
 
     public static String showStringList(List<String> sourceStringList) {

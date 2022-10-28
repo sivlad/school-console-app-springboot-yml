@@ -6,14 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.jdbc.Sql;
-import org.testcontainers.containers.PostgreSQLContainer;
 import ua.com.foxminded.consoleschoolappspringboot.AppStarter;
 import ua.com.foxminded.consoleschoolappspringboot.ConsoleSchoolAppSpringbootApplication;
+import ua.com.foxminded.consoleschoolappspringboot.TestConteinersConfiguration;
 import ua.com.foxminded.consoleschoolappspringboot.model.Group;
 
 import java.util.ArrayList;
@@ -22,30 +19,18 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@ActiveProfiles("test")
 @Sql(scripts = {"classpath:schema.sql", "classpath:test-data.sql"})
 @ContextConfiguration(classes = ConsoleSchoolAppSpringbootApplication.class, initializers = ConfigDataApplicationContextInitializer.class)
 public class GroupDaoImplTest {
 
-    private static final PostgreSQLContainer<?> postgresqlContainer;
-
-    static {
-        postgresqlContainer = new PostgreSQLContainer<>("postgres:14.5-alpine");
-        postgresqlContainer.start();
-    }
-
-    @DynamicPropertySource
-    public static void postgresqlProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgresqlContainer::getJdbcUrl);
-        registry.add("spring.datasource.username", postgresqlContainer::getUsername);
-        registry.add("spring.datasource.password", postgresqlContainer::getPassword);
-    }
+    @Autowired
+    private TestConteinersConfiguration testConteinersConfiguration;
 
     @MockBean
-    AppStarter appStarter;
+    private AppStarter appStarter;
 
     @Autowired
-    GroupDao groupDao;
+    private GroupDao groupDao;
 
     @Order(1)
     @Test

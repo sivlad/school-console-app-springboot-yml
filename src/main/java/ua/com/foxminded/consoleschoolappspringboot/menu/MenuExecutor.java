@@ -32,7 +32,7 @@ public class MenuExecutor {
     private MenuPublisher publisher;
 
     public void startMenu() {
-        showMenu();
+        System.out.println(showMenu());
 
         Scanner scanner = new Scanner(System.in);
         int choice = scanner.nextInt();
@@ -83,7 +83,7 @@ public class MenuExecutor {
 
     public void menuItem3Execute() {
         Scanner scanner = new Scanner(System.in);
-        publisher.showGroupList();
+        System.out.println(publisher.showGroupList());
         System.out.println("Please, enter the group to add student");
         String groupName = scanner.nextLine();
         System.out.println("Please, enter the first name of student");
@@ -115,7 +115,7 @@ public class MenuExecutor {
     public void menuItem5Execute() {
         Scanner scanner = new Scanner(System.in);
 
-        publisher.showCoursesList();
+        System.out.println(publisher.showCoursesList());
         System.out.println("Please, enter the courses name, that assign to student");
         String courseName = scanner.nextLine();
 
@@ -132,7 +132,7 @@ public class MenuExecutor {
         long studentId = scanner.nextLong();
         scanner.nextLine();
 
-        publisher.showCoursesListStudent(studentId);
+        System.out.println(publisher.showCoursesListStudent(studentId));
         System.out.println("Please, enter the course name to remove from student");
         String courseName = scanner.nextLine();
 
