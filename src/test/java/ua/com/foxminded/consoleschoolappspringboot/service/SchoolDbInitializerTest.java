@@ -1,6 +1,8 @@
 package ua.com.foxminded.consoleschoolappspringboot.service;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Sql(scripts = {"classpath:schema.sql"})
 @ContextConfiguration(classes = ConsoleSchoolAppSpringbootApplication.class, initializers = ConfigDataApplicationContextInitializer.class)
 public class SchoolDbInitializerTest {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AppStarter.class);
 
     @Autowired
     private TestConteinersConfiguration testConteinersConfiguration;
@@ -63,7 +67,7 @@ public class SchoolDbInitializerTest {
         try {
             schoolDbInitializer.createCourses();
         } catch (FileException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
 
         int expectedResult = 10;
@@ -81,7 +85,7 @@ public class SchoolDbInitializerTest {
         try {
             schoolDbInitializer.createRandomStudents();
         } catch (FileException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
 
         int expectedResult = 200;
@@ -100,7 +104,7 @@ public class SchoolDbInitializerTest {
             schoolDbInitializer.createCourses();
             schoolDbInitializer.createRandomStudents();
         } catch (FileException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
         schoolDbInitializer.assignStudentsToCourses();
 
