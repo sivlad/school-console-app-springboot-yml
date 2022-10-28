@@ -40,7 +40,7 @@ public class StudentDaoImpl implements StudentDao{
         try {
             jdbcTemplate.update(SAVE_STUDENT, student.getGroupId(), student.getFirstName(),student.getLastName());
         } catch (DataAccessException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
    }
 
@@ -67,7 +67,7 @@ public class StudentDaoImpl implements StudentDao{
         try {
             jdbcTemplate.update(UPDATE_STUDENT, student.getGroupId(), student.getFirstName(),student.getLastName());
         } catch (DataAccessException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -76,7 +76,7 @@ public class StudentDaoImpl implements StudentDao{
         try {
             jdbcTemplate.update(DELETE_STUDENT, studentId);
         } catch (DataAccessException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -85,7 +85,7 @@ public class StudentDaoImpl implements StudentDao{
         try {
             return jdbcTemplate.query(FIND_ALL_STUDENTS, studentRowMapper);
         } catch (DataAccessException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -95,7 +95,7 @@ public class StudentDaoImpl implements StudentDao{
         try {
             return jdbcTemplate.query(FIND_ALL_STUDENTS_FROM_COURSE, studentRowMapper, courseName);
         } catch (DataAccessException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -105,7 +105,7 @@ public class StudentDaoImpl implements StudentDao{
         try {
             jdbcTemplate.update(DELETE_ALL_STUDENTS);
         } catch (DataAccessException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 }

@@ -30,7 +30,7 @@ public class TxtFileReader {
         try (Stream<String> lineStream = Files.lines(Paths.get(property.getProperty(filename)))) {
             return lineStream.collect(Collectors.toList());
         } catch (IOException exception) {
-            LOGGER.info(exception.getMessage());
+            LOGGER.error(exception.getMessage());
             throw new FileException("Error with file");
         }
     }

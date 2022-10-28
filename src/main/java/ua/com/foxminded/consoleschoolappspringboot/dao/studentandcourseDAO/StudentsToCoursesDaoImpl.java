@@ -31,7 +31,7 @@ public class StudentsToCoursesDaoImpl implements StudentsToCoursesDao{
         try {
             jdbcTemplate.update(SAVE_STUDENT_TO_COURSE, studentsToCourse.getStudentId(), studentsToCourse.getCourseId());
         } catch (DataAccessException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -41,7 +41,7 @@ public class StudentsToCoursesDaoImpl implements StudentsToCoursesDao{
         try {
             jdbcTemplate.update(ASSIGN_STUDENT_TO_COURSE,studentId,courseName);
         } catch (DataAccessException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -51,7 +51,7 @@ public class StudentsToCoursesDaoImpl implements StudentsToCoursesDao{
         try {
             jdbcTemplate.update(DELETE_COURSE_FROM_STUDENT,studentId,courseName);
         } catch (DataAccessException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -60,7 +60,7 @@ public class StudentsToCoursesDaoImpl implements StudentsToCoursesDao{
         try {
             jdbcTemplate.update(DELETE_ALL_STUDENT_TO_COURSE);
         } catch (DataAccessException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 }

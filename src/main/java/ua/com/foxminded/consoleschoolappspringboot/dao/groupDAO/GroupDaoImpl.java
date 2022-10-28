@@ -44,7 +44,7 @@ public class GroupDaoImpl implements GroupDao{
         try {
             jdbcTemplate.update(SAVE_GROUP, group.getGroupName());
         } catch (DataAccessException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -69,7 +69,7 @@ public class GroupDaoImpl implements GroupDao{
         try {
             jdbcTemplate.update(UPDATE_GROUP, group.getGroupName(),group.getId());
         } catch (DataAccessException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -79,7 +79,7 @@ public class GroupDaoImpl implements GroupDao{
         try {
             jdbcTemplate.update(DELETE_GROUP, group.getId());
         } catch (DataAccessException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -88,7 +88,7 @@ public class GroupDaoImpl implements GroupDao{
         try {
             return jdbcTemplate.query(FIND_ALL_GROUPS, groupRowMapper);
         } catch (DataAccessException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -98,7 +98,7 @@ public class GroupDaoImpl implements GroupDao{
         try {
             jdbcTemplate.update(DELETE_ALL_GROUPS);
         } catch (DataAccessException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -108,7 +108,7 @@ public class GroupDaoImpl implements GroupDao{
         try {
             return jdbcTemplate.query(FIND_ALL_GROUPS_WITH_LESS_ORE_EQUAL_STUDENTS, groupNameRowMapper, numberStudents);
         } catch (DataAccessException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
             return new ArrayList<>();
         }
     }

@@ -23,7 +23,7 @@ public class SchoolInitializer {
             schoolDbInitializer.createRandomStudents();
             schoolDbInitializer.assignStudentsToCourses();
         } catch (FileException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 }

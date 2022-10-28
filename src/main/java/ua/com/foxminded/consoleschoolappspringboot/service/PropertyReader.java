@@ -21,7 +21,7 @@ public class PropertyReader {
             property.load(fileInputStream);
             return property;
         } catch (IOException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
             throw new PropertyFileException("Error open file property");
         }
     }

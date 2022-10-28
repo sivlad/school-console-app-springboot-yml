@@ -43,7 +43,7 @@ public class CourseDaoImpl implements CourseDao {
         try {
             jdbcTemplate.update(SAVE_COURSE, course.getCourseName(), course.getCourseDescription());
         } catch (DataAccessException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -69,7 +69,7 @@ public class CourseDaoImpl implements CourseDao {
         try {
             jdbcTemplate.update(UPDATE_COURSE, course.getCourseName(), course.getCourseDescription(), course.getId());
         } catch (DataAccessException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -78,7 +78,7 @@ public class CourseDaoImpl implements CourseDao {
         try {
             jdbcTemplate.update(DELETE_COURSE, course.getId());
         } catch (DataAccessException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -88,7 +88,7 @@ public class CourseDaoImpl implements CourseDao {
         try {
             return jdbcTemplate.query(FIND_ALL_COURSES, courseRowMapper);
         } catch (DataAccessException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -98,7 +98,7 @@ public class CourseDaoImpl implements CourseDao {
         try {
             return jdbcTemplate.query(FIND_ALL_COURSES_FROM_STUDENT, courseRowMapper, studentId);
         } catch (DataAccessException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -108,7 +108,7 @@ public class CourseDaoImpl implements CourseDao {
         try {
             jdbcTemplate.update(DELETE_ALL_COURSES);
         } catch (DataAccessException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 }

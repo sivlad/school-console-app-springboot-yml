@@ -82,7 +82,7 @@ public class SchoolDbInitializer {
             }
             courseDao.saveCourseList(courses);
         } catch (IOException exception) {
-            LOGGER.info(exception.getMessage());
+            LOGGER.error(exception.getMessage());
             throw new FileException("Error with schema.sql");
         }
     }
