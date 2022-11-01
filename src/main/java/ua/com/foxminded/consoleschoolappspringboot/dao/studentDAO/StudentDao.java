@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface StudentDao {
 
+    void save(String groupName, String firstName, String lastName) ;
+
     void save(Student student) ;
 
     int[] saveStudentsList(List<Student> students) ;

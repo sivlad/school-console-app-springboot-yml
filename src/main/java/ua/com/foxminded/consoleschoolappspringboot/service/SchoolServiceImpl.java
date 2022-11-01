@@ -35,18 +35,7 @@ public class SchoolServiceImpl implements SchoolService {
 
     @Override
     public void addNewStudent(String groupName, String firstName, String lastName) {
-        List<Group> groups = groupDao.findAll();
-        try {
-            Group groupToAdd = groups.stream().filter(e -> e.getGroupName().equals(groupName)).collect(Collectors.toList()).get(0);
-            Student addStudent = new Student();
-            addStudent.setFirstName(firstName);
-            addStudent.setLastName(lastName);
-            addStudent.setGroupId(groupToAdd.getId());
-            studentDao.save(addStudent);
-
-        } catch (IndexOutOfBoundsException e) {
-            System.err.println("Invalid name of group");
-        }
+        studentDao.save(groupName,firstName,lastName);
     }
 
     @Override

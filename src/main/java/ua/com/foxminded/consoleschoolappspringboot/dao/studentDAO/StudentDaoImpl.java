@@ -19,7 +19,9 @@ import java.util.List;
 @Repository
 public class StudentDaoImpl implements StudentDao{
 
-    private static final String SAVE_STUDENT = "INSERT INTO students(group_id,first_name,last_name) VALUES(?,?,?)";
+    private static final String SAVE_STUDENT = "INSERT INTO students(group_id,first_name,last_name) " +
+            " VALUES((SELECT groups.id FROM groups WHERE group_name = ?),?,?)";
+    private static final String SAVE_STUDENT_BRIEF = "INSERT INTO students(group_id,first_name,last_name) VALUES(?,?,?)";
     private static final String UPDATE_STUDENT = "UPDATE students SET first_name=?,last_name=? WHERE id = ?";
     private static final String FIND_ALL_STUDENTS = "SELECT * FROM students";
     private static final String FIND_ALL_STUDENTS_FROM_COURSE = "SELECT students.id, students.group_id, students.first_name, " +
@@ -36,18 +38,27 @@ public class StudentDaoImpl implements StudentDao{
     private final RowMapper<Student> studentRowMapper = new StudentRowMapper();
 
     @Override
-    public void save(Student student){
+    public void save(String groupName, String firstName, String lastName){
         try {
-            jdbcTemplate.update(SAVE_STUDENT, student.getGroupId(), student.getFirstName(),student.getLastName());
+            jdbcTemplate.update(SAVE_STUDENT, groupName, firstName,lastName);
         } catch (DataAccessException e) {
             LOGGER.error(e.getMessage());
         }
    }
 
     @Override
+    public void save(Student student){
+        try {
+            jdbcTemplate.update(SAVE_STUDENT_BRIEF, student.getGroupId(), student.getFirstName(),student.getLastName());
+        } catch (DataAccessException e) {
+            LOGGER.error(e.getMessage());
+        }
+    }
+
+    @Override
     public int[] saveStudentsList(List<Student> students) {
 
-        return jdbcTemplate.batchUpdate(SAVE_STUDENT,
+        return jdbcTemplate.batchUpdate(SAVE_STUDENT_BRIEF,
                 new BatchPreparedStatementSetter() {
                     @Override
                     public void setValues(PreparedStatement ps, int i) throws SQLException {

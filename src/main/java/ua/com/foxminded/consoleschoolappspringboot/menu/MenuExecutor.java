@@ -2,17 +2,11 @@ package ua.com.foxminded.consoleschoolappspringboot.menu;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.foxminded.consoleschoolappspringboot.dao.groupDAO.GroupDao;
-import ua.com.foxminded.consoleschoolappspringboot.dao.studentDAO.StudentDao;
-import ua.com.foxminded.consoleschoolappspringboot.dao.studentandcourseDAO.StudentsToCoursesDaoImpl;
-import ua.com.foxminded.consoleschoolappspringboot.model.Group;
 import ua.com.foxminded.consoleschoolappspringboot.model.Student;
 import ua.com.foxminded.consoleschoolappspringboot.service.SchoolService;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 import static ua.com.foxminded.consoleschoolappspringboot.menu.MenuPublisher.showMenu;
 import static ua.com.foxminded.consoleschoolappspringboot.menu.MenuPublisher.showStringList;
