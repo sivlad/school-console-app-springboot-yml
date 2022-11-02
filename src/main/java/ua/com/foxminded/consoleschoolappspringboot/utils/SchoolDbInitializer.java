@@ -5,15 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.consoleschoolappspringboot.AppStarter;
-import ua.com.foxminded.consoleschoolappspringboot.dao.courseDAO.CourseDao;
-import ua.com.foxminded.consoleschoolappspringboot.dao.groupDAO.GroupDao;
-import ua.com.foxminded.consoleschoolappspringboot.dao.studentDAO.StudentDao;
-import ua.com.foxminded.consoleschoolappspringboot.dao.studentandcourseDAO.StudentsToCoursesDaoImpl;
 import ua.com.foxminded.consoleschoolappspringboot.exception.FileException;
 import ua.com.foxminded.consoleschoolappspringboot.model.Course;
 import ua.com.foxminded.consoleschoolappspringboot.model.Group;
 import ua.com.foxminded.consoleschoolappspringboot.model.Student;
 import ua.com.foxminded.consoleschoolappspringboot.model.StudentsToCourse;
+import ua.com.foxminded.consoleschoolappspringboot.service.SchoolInitService;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,26 +25,14 @@ import java.util.stream.Stream;
 public class SchoolDbInitializer {
 
     @Autowired
-    private StudentDao studentDao;
-
-    @Autowired
-    private GroupDao groupDao;
-
-    @Autowired
-    private CourseDao courseDao;
-
-    @Autowired
-    private StudentsToCoursesDaoImpl studentsToCoursesDao;
+    private SchoolInitService schoolInitService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AppStarter.class);
 
     private static final Random RANDOM_GENERATOR = new Random();
 
     public void deleteAllRowsInDB() {
-        studentsToCoursesDao.deleteAll();
-        courseDao.deleteAll();
-        studentDao.deleteAll();
-        groupDao.deleteAll();
+        schoolInitService.deleteAllRowsInDB();
     }
 
     public void createRandomGroups() {
@@ -65,7 +50,7 @@ public class SchoolDbInitializer {
 
             groups.add(group);
         }
-        groupDao.saveGroupList(groups);
+        schoolInitService.saveGroupList(groups);
     }
 
     public void createCourses() throws FileException {
@@ -80,7 +65,7 @@ public class SchoolDbInitializer {
 
                 courses.add(course);
             }
-            courseDao.saveCourseList(courses);
+            schoolInitService.saveCourseList(courses);
         } catch (IOException exception) {
             LOGGER.error(exception.getMessage());
             throw new FileException("Error with schema.sql");
@@ -93,7 +78,7 @@ public class SchoolDbInitializer {
         TxtFileReader txtFileReaderLastNames = new TxtFileReader("data.lastnames");
         List<String> randomLastNames = txtFileReaderLastNames.readFile();
 
-        List<Group> groups = groupDao.findAll();
+        List<Group> groups = schoolInitService.finaAllGroups();
 
         List<Student> studentsToAdd = new ArrayList<>();
         for (int count = 0; count < 200; count++) {
@@ -104,19 +89,19 @@ public class SchoolDbInitializer {
 
             studentsToAdd.add(addStudent);
         }
-        studentDao.saveStudentsList(studentsToAdd);
+        schoolInitService.saveStudentsList(studentsToAdd);
     }
 
     public void assignStudentsToCourses() {
-        List<Course> courses = courseDao.findAll();
-        List<Student> students = studentDao.findAll();
+        List<Course> courses = schoolInitService.findAllCourses();
+        List<Student> students = schoolInitService.findAllStudents();
 
         for (var currentStudent : students) {
             for (int count = 0; count < (RANDOM_GENERATOR.nextInt(2) + 1); count++) {
                 StudentsToCourse studentsToCourse = new StudentsToCourse();
                 studentsToCourse.setStudentId(currentStudent.getId());
                 studentsToCourse.setCourseId(courses.get(RANDOM_GENERATOR.nextInt(courses.size())).getId());
-                studentsToCoursesDao.save(studentsToCourse);
+                schoolInitService.assignStudentsToCourse(studentsToCourse);
             }
         }
     }

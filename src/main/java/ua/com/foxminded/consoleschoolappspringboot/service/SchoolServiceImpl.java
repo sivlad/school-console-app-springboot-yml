@@ -5,11 +5,9 @@ import org.springframework.stereotype.Service;
 import ua.com.foxminded.consoleschoolappspringboot.dao.groupDAO.GroupDao;
 import ua.com.foxminded.consoleschoolappspringboot.dao.studentDAO.StudentDao;
 import ua.com.foxminded.consoleschoolappspringboot.dao.studentandcourseDAO.StudentsToCoursesDaoImpl;
-import ua.com.foxminded.consoleschoolappspringboot.model.Group;
 import ua.com.foxminded.consoleschoolappspringboot.model.Student;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class SchoolServiceImpl implements SchoolService {

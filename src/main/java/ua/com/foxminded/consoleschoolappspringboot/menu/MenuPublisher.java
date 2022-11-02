@@ -2,12 +2,9 @@ package ua.com.foxminded.consoleschoolappspringboot.menu;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.foxminded.consoleschoolappspringboot.dao.courseDAO.CourseDao;
-import ua.com.foxminded.consoleschoolappspringboot.dao.groupDAO.GroupDao;
-import ua.com.foxminded.consoleschoolappspringboot.dao.studentDAO.StudentDao;
-import ua.com.foxminded.consoleschoolappspringboot.dao.studentandcourseDAO.StudentsToCoursesDaoImpl;
 import ua.com.foxminded.consoleschoolappspringboot.model.Course;
 import ua.com.foxminded.consoleschoolappspringboot.model.Group;
+import ua.com.foxminded.consoleschoolappspringboot.service.SchoolInitService;
 
 import java.util.List;
 
@@ -30,16 +27,7 @@ public class MenuPublisher {
     private static final String  LIST_OF_COURSES = "List of courses";
 
     @Autowired
-    private StudentDao studentDao;
-
-    @Autowired
-    private GroupDao groupDao;
-
-    @Autowired
-    private CourseDao courseDao;
-
-    @Autowired
-    private StudentsToCoursesDaoImpl studentsToCoursesDao;
+    private SchoolInitService schoolInitService;
 
     public static String showMenu() {
         int menuLine = 1;
@@ -80,7 +68,7 @@ public class MenuPublisher {
     }
 
     public String showGroupList() {
-        List<Group> groups = groupDao.findAll();
+        List<Group> groups = schoolInitService.finaAllGroups();
         int menuLine = 1;
         StringBuilder resultString = new StringBuilder();
         resultString.append(LIST_OF_GROUPS)
@@ -101,7 +89,7 @@ public class MenuPublisher {
     }
 
     public String showCoursesList() {
-        List<Course> courses = courseDao.findAll();
+        List<Course> courses = schoolInitService.findAllCourses();
 
         int menuLine = 1;
         StringBuilder resultString = new StringBuilder();
@@ -126,7 +114,7 @@ public class MenuPublisher {
     }
 
     public String showCoursesListStudent(long studentId) {
-        List<Course> courses = courseDao.findAllCoursesFromStudent(studentId);
+        List<Course> courses = schoolInitService.findAllCoursesFromStudent(studentId);
 
         int menuLine = 1;
         StringBuilder resultString = new StringBuilder();
