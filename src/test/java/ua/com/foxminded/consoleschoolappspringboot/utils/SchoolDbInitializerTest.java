@@ -1,4 +1,4 @@
-package ua.com.foxminded.consoleschoolappspringboot.service;
+package ua.com.foxminded.consoleschoolappspringboot.utils;
 
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;

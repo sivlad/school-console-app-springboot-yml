@@ -1,11 +1,10 @@
-package ua.com.foxminded.consoleschoolappspringboot.dao.studentDAO;
+package ua.com.foxminded.consoleschoolappspringboot.service.studentservice;
 
 import ua.com.foxminded.consoleschoolappspringboot.model.Student;
 
 import java.util.List;
 
-public interface StudentDao {
-
+public interface StudentService {
     void save(String groupName, String firstName, String lastName) ;
 
     void save(Student student) ;

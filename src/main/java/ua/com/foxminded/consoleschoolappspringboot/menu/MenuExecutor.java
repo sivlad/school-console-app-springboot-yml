@@ -2,16 +2,11 @@ package ua.com.foxminded.consoleschoolappspringboot.menu;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.foxminded.consoleschoolappspringboot.dao.groupDAO.GroupDao;
-import ua.com.foxminded.consoleschoolappspringboot.dao.studentDAO.StudentDao;
-import ua.com.foxminded.consoleschoolappspringboot.dao.studentandcourseDAO.StudentsToCoursesDaoImpl;
-import ua.com.foxminded.consoleschoolappspringboot.model.Group;
 import ua.com.foxminded.consoleschoolappspringboot.model.Student;
-
+import ua.com.foxminded.consoleschoolappspringboot.service.schoolservice.SchoolService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 import static ua.com.foxminded.consoleschoolappspringboot.menu.MenuPublisher.showMenu;
 import static ua.com.foxminded.consoleschoolappspringboot.menu.MenuPublisher.showStringList;
@@ -20,16 +15,10 @@ import static ua.com.foxminded.consoleschoolappspringboot.menu.MenuPublisher.sho
 public class MenuExecutor {
 
     @Autowired
-    private StudentDao studentDao;
-
-    @Autowired
-    private GroupDao groupDao;
-
-    @Autowired
-    private StudentsToCoursesDaoImpl studentsToCoursesDao;
-
-    @Autowired
     private MenuPublisher publisher;
+
+    @Autowired
+    private SchoolService schoolService;
 
     public void startMenu() {
         System.out.println(showMenu());
@@ -64,14 +53,14 @@ public class MenuExecutor {
     }
 
     public String menuItem1Execute(int numberOfStudents) {
-        List<String> groups = groupDao.findAllGroupsWithLessOreEqualStudentsNumber(numberOfStudents);
+        List<String> groups = schoolService.findAllGroupsWithLessOrEqualsStudentCount(numberOfStudents);
 
         System.out.println("Groups with less ore equal students nembers are");
         return showStringList(groups);
     }
 
     public String menuItem2Execute(String courseName) {
-        List<Student> students = studentDao.findAllFromCourse(courseName);
+        List<Student> students = schoolService.findAllStudentsRelatedToTheCourseWithTheGivenName(courseName);
 
         List<String> studentsList = students.stream().collect(
                 ArrayList::new,
@@ -91,25 +80,14 @@ public class MenuExecutor {
         System.out.println("Please, enter the last name of student");
         String lastName = scanner.nextLine();
 
-        List<Group> groups = groupDao.findAll();
-        try {
-            Group groupToAdd = groups.stream().filter(e -> e.getGroupName().equals(groupName)).collect(Collectors.toList()).get(0);
-            Student addStudent = new Student();
-            addStudent.setFirstName(firstName);
-            addStudent.setLastName(lastName);
-            addStudent.setGroupId(groupToAdd.getId());
-            studentDao.save(addStudent);
-
-        } catch (IndexOutOfBoundsException e) {
-            System.err.println("Invalid name of group");
-        }
+        schoolService.addNewStudent(groupName,firstName,lastName);
     }
 
     public void menuItem4Execute() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please, enter the student id for delete");
         long studentId = scanner.nextLong();
-        studentDao.delete(studentId);
+        schoolService.deleteStudent(studentId);
     }
 
     public void menuItem5Execute() {
@@ -122,7 +100,7 @@ public class MenuExecutor {
         System.out.println("Please, enter the student id to assign");
         long studentId = scanner.nextLong();
 
-        studentsToCoursesDao.assignStudentToCourse(studentId, courseName);
+        schoolService.addStudentToTheCourse(studentId, courseName);
     }
 
     public void menuItem6Execute() {
@@ -136,7 +114,7 @@ public class MenuExecutor {
         System.out.println("Please, enter the course name to remove from student");
         String courseName = scanner.nextLine();
 
-        studentsToCoursesDao.deleteCourseFromStudent(studentId, courseName);
+        schoolService.removeStudentFromCourse(studentId, courseName);
     }
 }
 
