@@ -1,4 +1,4 @@
-package ua.com.foxminded.consoleschoolappspringboot.service;
+package ua.com.foxminded.consoleschoolappspringboot.service.schoolservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

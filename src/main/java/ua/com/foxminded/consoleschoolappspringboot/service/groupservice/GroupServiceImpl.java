@@ -1,4 +1,4 @@
-package ua.com.foxminded.consoleschoolappspringboot.service;
+package ua.com.foxminded.consoleschoolappspringboot.service.groupservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.com.foxminded.consoleschoolappspringboot.dao.groupDAO.GroupDao;

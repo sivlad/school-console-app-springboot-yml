@@ -1,4 +1,4 @@
-package ua.com.foxminded.consoleschoolappspringboot.service;
+package ua.com.foxminded.consoleschoolappspringboot.service.studentstocoursesservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.com.foxminded.consoleschoolappspringboot.dao.studentandcourseDAO.StudentsToCoursesDao;

@@ -1,4 +1,4 @@
-package ua.com.foxminded.consoleschoolappspringboot.service;
+package ua.com.foxminded.consoleschoolappspringboot.service.schoolservice;
 
 import ua.com.foxminded.consoleschoolappspringboot.model.Student;
 

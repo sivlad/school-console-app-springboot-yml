@@ -1,4 +1,4 @@
-package ua.com.foxminded.consoleschoolappspringboot.service;
+package ua.com.foxminded.consoleschoolappspringboot.service.groupservice;
 
 import ua.com.foxminded.consoleschoolappspringboot.model.Group;
 

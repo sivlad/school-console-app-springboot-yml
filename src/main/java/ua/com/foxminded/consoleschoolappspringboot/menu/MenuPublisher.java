@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.consoleschoolappspringboot.model.Course;
 import ua.com.foxminded.consoleschoolappspringboot.model.Group;
-import ua.com.foxminded.consoleschoolappspringboot.service.SchoolInitService;
+import ua.com.foxminded.consoleschoolappspringboot.service.schoolinitservice.SchoolInitService;
 
 import java.util.List;
 

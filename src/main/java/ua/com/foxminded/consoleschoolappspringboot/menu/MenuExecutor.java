@@ -3,7 +3,7 @@ package ua.com.foxminded.consoleschoolappspringboot.menu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.consoleschoolappspringboot.model.Student;
-import ua.com.foxminded.consoleschoolappspringboot.service.SchoolService;
+import ua.com.foxminded.consoleschoolappspringboot.service.schoolservice.SchoolService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

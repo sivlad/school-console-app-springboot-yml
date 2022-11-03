@@ -10,7 +10,7 @@ import ua.com.foxminded.consoleschoolappspringboot.model.Course;
 import ua.com.foxminded.consoleschoolappspringboot.model.Group;
 import ua.com.foxminded.consoleschoolappspringboot.model.Student;
 import ua.com.foxminded.consoleschoolappspringboot.model.StudentsToCourse;
-import ua.com.foxminded.consoleschoolappspringboot.service.SchoolInitService;
+import ua.com.foxminded.consoleschoolappspringboot.service.schoolinitservice.SchoolInitService;
 
 import java.io.IOException;
 import java.nio.file.Files;
