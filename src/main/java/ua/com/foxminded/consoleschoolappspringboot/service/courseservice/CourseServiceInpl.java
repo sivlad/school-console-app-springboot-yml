@@ -1,11 +1,13 @@
 package ua.com.foxminded.consoleschoolappspringboot.service.courseservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ua.com.foxminded.consoleschoolappspringboot.dao.courseDAO.CourseDao;
 import ua.com.foxminded.consoleschoolappspringboot.model.Course;
 
 import java.util.List;
 
+@Service
 public class CourseServiceInpl implements CourseService{
 
     @Autowired

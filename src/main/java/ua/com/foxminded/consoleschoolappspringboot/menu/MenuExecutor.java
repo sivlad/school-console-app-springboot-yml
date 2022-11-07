@@ -1,5 +1,6 @@
 package ua.com.foxminded.consoleschoolappspringboot.menu;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.consoleschoolappspringboot.model.Student;
@@ -11,6 +12,7 @@ import java.util.Scanner;
 import static ua.com.foxminded.consoleschoolappspringboot.menu.MenuPublisher.showMenu;
 import static ua.com.foxminded.consoleschoolappspringboot.menu.MenuPublisher.showStringList;
 
+@Log4j2
 @Service
 public class MenuExecutor {
 
@@ -31,24 +33,27 @@ public class MenuExecutor {
             int numberOfStudents = scanner.nextInt();
             System.out.println(menuItem1Execute(numberOfStudents));
         }
-        if (choice == 2) {
+        else if (choice == 2) {
             System.out.println(publisher.showCoursesList());
             System.out.println("Please, enter the courses name");
             String courseName = scanner.nextLine();
             courseName = scanner.nextLine();
             System.out.println(menuItem2Execute(courseName));
         }
-        if (choice == 3) {
+        else if (choice == 3) {
             menuItem3Execute();
         }
-        if (choice == 4) {
+        else if (choice == 4) {
             menuItem4Execute();
         }
-        if (choice == 5) {
+        else if (choice == 5) {
             menuItem5Execute();
         }
-        if (choice == 6) {
+        else if (choice == 6) {
             menuItem6Execute();
+        }
+        else {
+            log.error("Invalid item of menu");
         }
     }
 

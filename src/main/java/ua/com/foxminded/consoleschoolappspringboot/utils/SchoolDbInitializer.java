@@ -1,5 +1,6 @@
 package ua.com.foxminded.consoleschoolappspringboot.utils;
 
+import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Log4j2
 @Service
 public class SchoolDbInitializer {
 
@@ -33,6 +35,7 @@ public class SchoolDbInitializer {
 
     public void deleteAllRowsInDB() {
         schoolInitService.deleteAllRowsInDB();
+        log.warn("All rows in DB was deleted");
     }
 
     public void createRandomGroups() {
@@ -51,6 +54,7 @@ public class SchoolDbInitializer {
             groups.add(group);
         }
         schoolInitService.saveGroupList(groups);
+        log.info("Random groups are created");
     }
 
     public void createCourses() throws FileException {
@@ -66,6 +70,7 @@ public class SchoolDbInitializer {
                 courses.add(course);
             }
             schoolInitService.saveCourseList(courses);
+            log.info("Random courses are created");
         } catch (IOException exception) {
             LOGGER.error(exception.getMessage());
             throw new FileException("Error with schema.sql");
@@ -90,6 +95,7 @@ public class SchoolDbInitializer {
             studentsToAdd.add(addStudent);
         }
         schoolInitService.saveStudentsList(studentsToAdd);
+        log.info("Random students are created");
     }
 
     public void assignStudentsToCourses() {
@@ -104,5 +110,6 @@ public class SchoolDbInitializer {
                 schoolInitService.assignStudentsToCourse(studentsToCourse);
             }
         }
+        log.info("Courses assign to students");
     }
 }
