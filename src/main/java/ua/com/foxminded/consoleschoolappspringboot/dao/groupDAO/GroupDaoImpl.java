@@ -1,14 +1,12 @@
 package ua.com.foxminded.consoleschoolappspringboot.dao.groupDAO;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import ua.com.foxminded.consoleschoolappspringboot.AppStarter;
 import ua.com.foxminded.consoleschoolappspringboot.model.Group;
 
 import java.sql.PreparedStatement;
@@ -16,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Log4j2
 @Repository
 public class GroupDaoImpl implements GroupDao{
 
@@ -31,8 +30,6 @@ public class GroupDaoImpl implements GroupDao{
             " WHERE groups.id = ? ";
     private static final String DELETE_GROUP = "DELETE FROM groups WHERE groups.id = ?";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AppStarter.class);
-
     @Autowired
     private  JdbcTemplate jdbcTemplate;
 
@@ -42,14 +39,16 @@ public class GroupDaoImpl implements GroupDao{
     @Override
     public void save(Group group) {
         try {
+            log.debug("Save group");
             jdbcTemplate.update(SAVE_GROUP, group.getGroupName());
         } catch (DataAccessException e) {
-            LOGGER.error(e.getMessage());
+            log.warn("Bad sql queue" + e.getMessage());
         }
     }
 
     @Override
     public int[] saveGroupList(List<Group> groups) {
+        log.debug("Add list of groups");
         return jdbcTemplate.batchUpdate(SAVE_GROUP,
                 new BatchPreparedStatementSetter() {
                     @Override
@@ -65,11 +64,11 @@ public class GroupDaoImpl implements GroupDao{
 
     @Override
     public void update(Group group) {
-
         try {
+            log.debug("Update group");
             jdbcTemplate.update(UPDATE_GROUP, group.getGroupName(),group.getId());
         } catch (DataAccessException e) {
-            LOGGER.error(e.getMessage());
+            log.warn("Bad sql queue" + e.getMessage());
         }
     }
 
@@ -77,18 +76,20 @@ public class GroupDaoImpl implements GroupDao{
     public void delete(Group group) {
 
         try {
+            log.debug("Delete group");
             jdbcTemplate.update(DELETE_GROUP, group.getId());
         } catch (DataAccessException e) {
-            LOGGER.error(e.getMessage());
+            log.warn("Bad sql queue" + e.getMessage());
         }
     }
 
     @Override
     public List<Group> findAll() {
         try {
+            log.info("Find all groups");
             return jdbcTemplate.query(FIND_ALL_GROUPS, groupRowMapper);
         } catch (DataAccessException e) {
-            LOGGER.error(e.getMessage());
+            log.warn("Bad sql queue" + e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -96,9 +97,10 @@ public class GroupDaoImpl implements GroupDao{
     @Override
     public void deleteAll() {
         try {
+            log.debug("Delete all groups");
             jdbcTemplate.update(DELETE_ALL_GROUPS);
         } catch (DataAccessException e) {
-            LOGGER.error(e.getMessage());
+            log.warn("Bad sql queue" + e.getMessage());
         }
     }
 
@@ -106,9 +108,10 @@ public class GroupDaoImpl implements GroupDao{
     public List<String> findAllGroupsWithLessOreEqualStudentsNumber(int numberStudents) {
 
         try {
+            log.info("Find all groups with less ore equal number of students");
             return jdbcTemplate.query(FIND_ALL_GROUPS_WITH_LESS_ORE_EQUAL_STUDENTS, groupNameRowMapper, numberStudents);
         } catch (DataAccessException e) {
-            LOGGER.error(e.getMessage());
+            log.warn("Bad sql queue" + e.getMessage());
             return new ArrayList<>();
         }
     }

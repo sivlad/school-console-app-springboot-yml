@@ -1,11 +1,13 @@
 package ua.com.foxminded.consoleschoolappspringboot.service.groupservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ua.com.foxminded.consoleschoolappspringboot.dao.groupDAO.GroupDao;
 import ua.com.foxminded.consoleschoolappspringboot.model.Group;
 
 import java.util.List;
 
+@Service
 public class GroupServiceImpl implements GroupService{
 
     @Autowired

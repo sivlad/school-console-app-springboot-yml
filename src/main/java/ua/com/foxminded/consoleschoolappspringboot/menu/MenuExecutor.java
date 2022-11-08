@@ -1,5 +1,6 @@
 package ua.com.foxminded.consoleschoolappspringboot.menu;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.consoleschoolappspringboot.model.Student;
@@ -11,6 +12,7 @@ import java.util.Scanner;
 import static ua.com.foxminded.consoleschoolappspringboot.menu.MenuPublisher.showMenu;
 import static ua.com.foxminded.consoleschoolappspringboot.menu.MenuPublisher.showStringList;
 
+@Log4j2
 @Service
 public class MenuExecutor {
 
@@ -31,24 +33,27 @@ public class MenuExecutor {
             int numberOfStudents = scanner.nextInt();
             System.out.println(menuItem1Execute(numberOfStudents));
         }
-        if (choice == 2) {
+        else if (choice == 2) {
             System.out.println(publisher.showCoursesList());
             System.out.println("Please, enter the courses name");
             String courseName = scanner.nextLine();
             courseName = scanner.nextLine();
             System.out.println(menuItem2Execute(courseName));
         }
-        if (choice == 3) {
+        else if (choice == 3) {
             menuItem3Execute();
         }
-        if (choice == 4) {
+        else if (choice == 4) {
             menuItem4Execute();
         }
-        if (choice == 5) {
+        else if (choice == 5) {
             menuItem5Execute();
         }
-        if (choice == 6) {
+        else if (choice == 6) {
             menuItem6Execute();
+        }
+        else {
+            log.warn("Invalid item of menu");
         }
     }
 
@@ -56,6 +61,7 @@ public class MenuExecutor {
         List<String> groups = schoolService.findAllGroupsWithLessOrEqualsStudentCount(numberOfStudents);
 
         System.out.println("Groups with less ore equal students nembers are");
+        log.info("menuItem1 Execute complete");
         return showStringList(groups);
     }
 
@@ -67,6 +73,7 @@ public class MenuExecutor {
                 (list, item) -> list.add(item.getFirstName() + " " + item.getLastName()),
                 (list1, list2) -> list1.addAll(list2));
 
+        log.info("menuItem2 Execute complete");
         return showStringList(studentsList);
     }
 
@@ -80,6 +87,7 @@ public class MenuExecutor {
         System.out.println("Please, enter the last name of student");
         String lastName = scanner.nextLine();
 
+        log.info("menuItem3 Execute complete");
         schoolService.addNewStudent(groupName,firstName,lastName);
     }
 
@@ -88,6 +96,7 @@ public class MenuExecutor {
         System.out.println("Please, enter the student id for delete");
         long studentId = scanner.nextLong();
         schoolService.deleteStudent(studentId);
+        log.info("menuItem4 Execute complete");
     }
 
     public void menuItem5Execute() {
@@ -101,6 +110,7 @@ public class MenuExecutor {
         long studentId = scanner.nextLong();
 
         schoolService.addStudentToTheCourse(studentId, courseName);
+        log.info("menuItem5 Execute complete");
     }
 
     public void menuItem6Execute() {
@@ -115,6 +125,7 @@ public class MenuExecutor {
         String courseName = scanner.nextLine();
 
         schoolService.removeStudentFromCourse(studentId, courseName);
+        log.info("menuItem6 Execute complete");
     }
 }
 

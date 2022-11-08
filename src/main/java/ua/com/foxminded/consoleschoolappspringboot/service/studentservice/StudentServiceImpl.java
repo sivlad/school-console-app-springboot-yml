@@ -1,11 +1,13 @@
 package ua.com.foxminded.consoleschoolappspringboot.service.studentservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ua.com.foxminded.consoleschoolappspringboot.dao.studentDAO.StudentDao;
 import ua.com.foxminded.consoleschoolappspringboot.model.Student;
 
 import java.util.List;
 
+@Service
 public class StudentServiceImpl implements StudentService{
 
     @Autowired
