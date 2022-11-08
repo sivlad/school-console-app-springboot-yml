@@ -53,7 +53,7 @@ public class MenuExecutor {
             menuItem6Execute();
         }
         else {
-            log.error("Invalid item of menu");
+            log.warn("Invalid item of menu");
         }
     }
 
@@ -61,6 +61,7 @@ public class MenuExecutor {
         List<String> groups = schoolService.findAllGroupsWithLessOrEqualsStudentCount(numberOfStudents);
 
         System.out.println("Groups with less ore equal students nembers are");
+        log.info("menuItem1 Execute complete");
         return showStringList(groups);
     }
 
@@ -72,6 +73,7 @@ public class MenuExecutor {
                 (list, item) -> list.add(item.getFirstName() + " " + item.getLastName()),
                 (list1, list2) -> list1.addAll(list2));
 
+        log.info("menuItem2 Execute complete");
         return showStringList(studentsList);
     }
 
@@ -85,6 +87,7 @@ public class MenuExecutor {
         System.out.println("Please, enter the last name of student");
         String lastName = scanner.nextLine();
 
+        log.info("menuItem3 Execute complete");
         schoolService.addNewStudent(groupName,firstName,lastName);
     }
 
@@ -93,6 +96,7 @@ public class MenuExecutor {
         System.out.println("Please, enter the student id for delete");
         long studentId = scanner.nextLong();
         schoolService.deleteStudent(studentId);
+        log.info("menuItem4 Execute complete");
     }
 
     public void menuItem5Execute() {
@@ -106,6 +110,7 @@ public class MenuExecutor {
         long studentId = scanner.nextLong();
 
         schoolService.addStudentToTheCourse(studentId, courseName);
+        log.info("menuItem5 Execute complete");
     }
 
     public void menuItem6Execute() {
@@ -120,6 +125,7 @@ public class MenuExecutor {
         String courseName = scanner.nextLine();
 
         schoolService.removeStudentFromCourse(studentId, courseName);
+        log.info("menuItem6 Execute complete");
     }
 }
 

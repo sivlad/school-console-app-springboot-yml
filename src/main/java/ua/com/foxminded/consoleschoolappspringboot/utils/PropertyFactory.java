@@ -1,26 +1,25 @@
 package ua.com.foxminded.consoleschoolappspringboot.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import ua.com.foxminded.consoleschoolappspringboot.AppStarter;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Service;
 import ua.com.foxminded.consoleschoolappspringboot.exception.PropertyFileException;
 
 import java.util.Properties;
 
+@Log4j2
+@Service
 public class PropertyFactory {
 
     private static PropertyFactory propertyFactory;
     private static Properties properties;
     private static final PropertyReader PROPERTY_READER;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AppStarter.class);
-
     static {
         PROPERTY_READER = new PropertyReader();
         try {
             properties = PROPERTY_READER.readProperties();
         } catch (PropertyFileException e) {
-            LOGGER.info(e.getMessage());
+            log.error("Error open property file");
         }
     }
 

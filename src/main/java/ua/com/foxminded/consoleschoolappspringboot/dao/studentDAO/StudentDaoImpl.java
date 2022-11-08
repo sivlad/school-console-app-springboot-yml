@@ -1,5 +1,6 @@
 package ua.com.foxminded.consoleschoolappspringboot.dao.studentDAO;
 
+import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Log4j2
 @Repository
 public class StudentDaoImpl implements StudentDao{
 
@@ -40,6 +42,7 @@ public class StudentDaoImpl implements StudentDao{
     @Override
     public void save(String groupName, String firstName, String lastName){
         try {
+            log.debug("Save student");
             jdbcTemplate.update(SAVE_STUDENT, groupName, firstName,lastName);
         } catch (DataAccessException e) {
             LOGGER.error(e.getMessage());
@@ -49,15 +52,17 @@ public class StudentDaoImpl implements StudentDao{
     @Override
     public void save(Student student){
         try {
+            log.debug("Save student");
             jdbcTemplate.update(SAVE_STUDENT_BRIEF, student.getGroupId(), student.getFirstName(),student.getLastName());
         } catch (DataAccessException e) {
-            LOGGER.error(e.getMessage());
+            log.warn("Bad sql queue" + e.getMessage());
         }
     }
 
     @Override
     public int[] saveStudentsList(List<Student> students) {
 
+        log.debug("Save list of students");
         return jdbcTemplate.batchUpdate(SAVE_STUDENT_BRIEF,
                 new BatchPreparedStatementSetter() {
                     @Override
@@ -76,27 +81,30 @@ public class StudentDaoImpl implements StudentDao{
     @Override
     public void update(Student student) {
         try {
+            log.debug("Update student");
             jdbcTemplate.update(UPDATE_STUDENT, student.getGroupId(), student.getFirstName(),student.getLastName());
         } catch (DataAccessException e) {
-            LOGGER.error(e.getMessage());
+            log.warn("Bad sql queue" + e.getMessage());
         }
     }
 
     @Override
     public void delete(long studentId) {
         try {
+            log.debug("Delete student " + studentId);
             jdbcTemplate.update(DELETE_STUDENT, studentId);
         } catch (DataAccessException e) {
-            LOGGER.error(e.getMessage());
+            log.warn("Bad sql queue" + e.getMessage());
         }
     }
 
     @Override
     public List<Student> findAll() {
         try {
+            log.debug("find all students");
             return jdbcTemplate.query(FIND_ALL_STUDENTS, studentRowMapper);
         } catch (DataAccessException e) {
-            LOGGER.error(e.getMessage());
+            log.warn("Bad sql queue" + e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -104,9 +112,10 @@ public class StudentDaoImpl implements StudentDao{
     @Override
     public List<Student> findAllFromCourse(String courseName) {
         try {
+            log.debug("find all students from course");
             return jdbcTemplate.query(FIND_ALL_STUDENTS_FROM_COURSE, studentRowMapper, courseName);
         } catch (DataAccessException e) {
-            LOGGER.error(e.getMessage());
+            log.warn("Bad sql queue" + e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -114,9 +123,10 @@ public class StudentDaoImpl implements StudentDao{
     @Override
     public void deleteAll() {
         try {
+            log.debug("Delete all students");
             jdbcTemplate.update(DELETE_ALL_STUDENTS);
         } catch (DataAccessException e) {
-            LOGGER.error(e.getMessage());
+            log.warn("Bad sql queue" + e.getMessage());
         }
     }
 }

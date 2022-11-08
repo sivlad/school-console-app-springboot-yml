@@ -1,14 +1,13 @@
 package ua.com.foxminded.consoleschoolappspringboot.dao.studentandcourseDAO;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import ua.com.foxminded.consoleschoolappspringboot.AppStarter;
 import ua.com.foxminded.consoleschoolappspringboot.model.StudentsToCourse;
 
+@Log4j2
 @Repository
 public class StudentsToCoursesDaoImpl implements StudentsToCoursesDao{
 
@@ -20,8 +19,6 @@ public class StudentsToCoursesDaoImpl implements StudentsToCoursesDao{
             " WHERE  studentsandcourses.student_id = ? AND " +
             " studentsandcourses.course_id = (SELECT courses.id FROM courses WHERE courses.course_name = ?) ";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AppStarter.class);
-
     @Autowired
     private  JdbcTemplate jdbcTemplate;
 
@@ -29,9 +26,10 @@ public class StudentsToCoursesDaoImpl implements StudentsToCoursesDao{
     public void save(StudentsToCourse studentsToCourse) {
 
         try {
+            log.debug("Save StudentToCourse");
             jdbcTemplate.update(SAVE_STUDENT_TO_COURSE, studentsToCourse.getStudentId(), studentsToCourse.getCourseId());
         } catch (DataAccessException e) {
-            LOGGER.error(e.getMessage());
+            log.warn("Bad sql queue" + e.getMessage());
         }
     }
 
@@ -39,9 +37,10 @@ public class StudentsToCoursesDaoImpl implements StudentsToCoursesDao{
     public void assignStudentToCourse(long studentId, String courseName) {
 
         try {
+            log.debug("Assign Student to course");
             jdbcTemplate.update(ASSIGN_STUDENT_TO_COURSE,studentId,courseName);
         } catch (DataAccessException e) {
-            LOGGER.error(e.getMessage());
+            log.warn("Bad sql queue" + e.getMessage());
         }
     }
 
@@ -49,18 +48,20 @@ public class StudentsToCoursesDaoImpl implements StudentsToCoursesDao{
     public void deleteCourseFromStudent(long studentId, String courseName) {
 
         try {
+            log.debug("Delete course from student");
             jdbcTemplate.update(DELETE_COURSE_FROM_STUDENT,studentId,courseName);
         } catch (DataAccessException e) {
-            LOGGER.error(e.getMessage());
+            log.warn("Bad sql queue" + e.getMessage());
         }
     }
 
     @Override
     public void deleteAll() {
         try {
+            log.debug("Delete all courses to students");
             jdbcTemplate.update(DELETE_ALL_STUDENT_TO_COURSE);
         } catch (DataAccessException e) {
-            LOGGER.error(e.getMessage());
+            log.warn("Bad sql queue" + e.getMessage());
         }
     }
 }

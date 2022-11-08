@@ -1,11 +1,8 @@
 package ua.com.foxminded.consoleschoolappspringboot.utils;
 
 import lombok.extern.log4j.Log4j2;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.foxminded.consoleschoolappspringboot.AppStarter;
 import ua.com.foxminded.consoleschoolappspringboot.exception.FileException;
 import ua.com.foxminded.consoleschoolappspringboot.model.Course;
 import ua.com.foxminded.consoleschoolappspringboot.model.Group;
@@ -29,13 +26,11 @@ public class SchoolDbInitializer {
     @Autowired
     private SchoolInitService schoolInitService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AppStarter.class);
-
     private static final Random RANDOM_GENERATOR = new Random();
 
     public void deleteAllRowsInDB() {
         schoolInitService.deleteAllRowsInDB();
-        log.warn("All rows in DB was deleted");
+        log.debug("All rows in DB was deleted");
     }
 
     public void createRandomGroups() {
@@ -54,7 +49,7 @@ public class SchoolDbInitializer {
             groups.add(group);
         }
         schoolInitService.saveGroupList(groups);
-        log.info("Random groups are created");
+        log.debug("Random groups are created");
     }
 
     public void createCourses() throws FileException {
@@ -70,10 +65,10 @@ public class SchoolDbInitializer {
                 courses.add(course);
             }
             schoolInitService.saveCourseList(courses);
-            log.info("Random courses are created");
+            log.debug("Random courses are created");
         } catch (IOException exception) {
-            LOGGER.error(exception.getMessage());
-            throw new FileException("Error with schema.sql");
+            log.error("Error open source courses file");
+            throw new FileException("Error with source courses file");
         }
     }
 
@@ -95,7 +90,7 @@ public class SchoolDbInitializer {
             studentsToAdd.add(addStudent);
         }
         schoolInitService.saveStudentsList(studentsToAdd);
-        log.info("Random students are created");
+        log.debug("Random students are created");
     }
 
     public void assignStudentsToCourses() {
@@ -110,6 +105,6 @@ public class SchoolDbInitializer {
                 schoolInitService.assignStudentsToCourse(studentsToCourse);
             }
         }
-        log.info("Courses assign to students");
+        log.debug("Courses assign to students");
     }
 }
