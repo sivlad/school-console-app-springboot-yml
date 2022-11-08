@@ -101,7 +101,7 @@ public class StudentDaoImpl implements StudentDao{
     @Override
     public List<Student> findAll() {
         try {
-            log.debug("find all students");
+            log.info("find all students");
             return jdbcTemplate.query(FIND_ALL_STUDENTS, studentRowMapper);
         } catch (DataAccessException e) {
             log.warn("Bad sql queue" + e.getMessage());
@@ -112,7 +112,7 @@ public class StudentDaoImpl implements StudentDao{
     @Override
     public List<Student> findAllFromCourse(String courseName) {
         try {
-            log.debug("find all students from course");
+            log.info("find all students from course");
             return jdbcTemplate.query(FIND_ALL_STUDENTS_FROM_COURSE, studentRowMapper, courseName);
         } catch (DataAccessException e) {
             log.warn("Bad sql queue" + e.getMessage());

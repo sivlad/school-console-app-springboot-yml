@@ -37,7 +37,7 @@ public class StudentsToCoursesDaoImpl implements StudentsToCoursesDao{
     public void assignStudentToCourse(long studentId, String courseName) {
 
         try {
-            log.debug("Assign Student to course");
+            log.info("Assign Student to course");
             jdbcTemplate.update(ASSIGN_STUDENT_TO_COURSE,studentId,courseName);
         } catch (DataAccessException e) {
             log.warn("Bad sql queue" + e.getMessage());

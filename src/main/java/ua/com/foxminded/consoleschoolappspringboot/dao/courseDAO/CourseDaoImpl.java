@@ -87,7 +87,7 @@ public class CourseDaoImpl implements CourseDao {
     @Transactional(readOnly=true)
     public List<Course> findAll() {
         try {
-            log.debug("Find all courses");
+            log.info("Find all courses");
             return jdbcTemplate.query(FIND_ALL_COURSES, courseRowMapper);
         } catch (DataAccessException e) {
             log.warn("Bad sql queue" + e.getMessage());
@@ -98,7 +98,7 @@ public class CourseDaoImpl implements CourseDao {
     @Override
     public List<Course> findAllCoursesFromStudent(long studentId) {
         try {
-            log.debug("Fina all courses from student");
+            log.info("Fina all courses from student");
             return jdbcTemplate.query(FIND_ALL_COURSES_FROM_STUDENT, courseRowMapper, studentId);
         } catch (DataAccessException e) {
             log.warn("Bad sql queue" + e.getMessage());

@@ -86,7 +86,7 @@ public class GroupDaoImpl implements GroupDao{
     @Override
     public List<Group> findAll() {
         try {
-            log.debug("Find all groups");
+            log.info("Find all groups");
             return jdbcTemplate.query(FIND_ALL_GROUPS, groupRowMapper);
         } catch (DataAccessException e) {
             log.warn("Bad sql queue" + e.getMessage());
@@ -108,7 +108,7 @@ public class GroupDaoImpl implements GroupDao{
     public List<String> findAllGroupsWithLessOreEqualStudentsNumber(int numberStudents) {
 
         try {
-            log.debug("Find all groups with less ore equal number of students");
+            log.info("Find all groups with less ore equal number of students");
             return jdbcTemplate.query(FIND_ALL_GROUPS_WITH_LESS_ORE_EQUAL_STUDENTS, groupNameRowMapper, numberStudents);
         } catch (DataAccessException e) {
             log.warn("Bad sql queue" + e.getMessage());

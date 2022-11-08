@@ -8,7 +8,7 @@ import ua.com.foxminded.consoleschoolappspringboot.model.Course;
 import java.util.List;
 
 @Service
-public class CourseServiceInpl implements CourseService{
+public class CourseServiceImpl implements CourseService{
 
     @Autowired
     CourseDao courseDao;
