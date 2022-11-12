@@ -145,12 +145,13 @@ public class MenuPublisher {
         resultString.append(SEPARATOR.repeat(60))
                 .append(END_LINE);
 
-        for (var currentString : sourceStringList) {
+        for (String currentString : sourceStringList) {
             resultString.append(menuLine++)
                     .append(DOT_SPACE)
                     .append(currentString)
                     .append(END_LINE);
         }
+
         resultString.append(SEPARATOR.repeat(60))
                 .append(END_LINE);
 

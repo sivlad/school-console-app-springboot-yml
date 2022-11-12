@@ -1,9 +1,22 @@
 package ua.com.foxminded.consoleschoolappspringboot.model;
 
+import lombok.Data;
+
+import javax.persistence.*;
+
+@Data
+@Entity
+@Table(name = "studentsandcourses")
 public class StudentsToCourse{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "student_id")
     private long studentId;
+
+    @Column(name = "course_id")
     private long courseId;
 
     public Long getId() {
@@ -12,30 +25,5 @@ public class StudentsToCourse{
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public long getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(long studentId) {
-        this.studentId = studentId;
-    }
-
-    public long getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(long courseId) {
-        this.courseId = courseId;
-    }
-
-    @Override
-    public String toString() {
-        return "StudentsToCourse{" +
-                "id=" + id +
-                ", studentId=" + studentId +
-                ", courseId=" + courseId +
-                '}';
     }
 }

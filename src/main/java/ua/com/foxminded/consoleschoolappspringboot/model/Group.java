@@ -1,10 +1,17 @@
 package ua.com.foxminded.consoleschoolappspringboot.model;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "groups")
 public class Group{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "group_name")
     private String groupName;
 
     public Long getId() {

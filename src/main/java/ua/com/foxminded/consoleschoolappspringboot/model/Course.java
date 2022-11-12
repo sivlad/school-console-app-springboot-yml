@@ -1,11 +1,20 @@
 package ua.com.foxminded.consoleschoolappspringboot.model;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "courses")
 public class Course{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "course_name")
     private String courseName;
+
+    @Column(name = "course_description")
     private String courseDescription;
 
     public Long getId() {
