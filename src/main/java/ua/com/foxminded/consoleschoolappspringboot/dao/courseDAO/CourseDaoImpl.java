@@ -18,12 +18,13 @@ public class CourseDaoImpl implements CourseDao {
     private static final String SAVE_COURSE = "INSERT INTO courses(id,course_name,course_description) VALUES(:courseId, :courseName, :courseDescription)";
     private static final String SAVE_COURSE_BATCH = "INSERT INTO courses(course_name,course_description) VALUES(:courseName, :courseDescription)";
     private static final String FIND_ALL_COURSES = "SELECT * FROM courses";
-    private static final String FIND_ALL_COURSES_FROM_STUDENT = "SELECT courses_\n" +
-            "FROM Course courses_ JOIN StudentsToCourse studentsandcourses_ ON courses_.id = studentsandcourses_.courseId\n" +
-            "JOIN Student students_ ON studentsandcourses_.studentId = students_.id\n" +
-            "WHERE students_.id = :studentId ";
+    private static final String FIND_ALL_COURSES_FROM_STUDENT = """
+            SELECT courses_
+            FROM Course courses_ JOIN StudentsToCourse studentsandcourses_ ON courses_.id = studentsandcourses_.courseId
+            JOIN Student students_ ON studentsandcourses_.studentId = students_.id
+            WHERE students_.id = :studentId\s""";
     private static final String DELETE_ALL_COURSES = "DELETE FROM courses";
-    private static final String UPDATE_COURSE = "UPDATE courses SET course_name = :courseName, course_description = :courseDescroption " +
+    private static final String UPDATE_COURSE = "UPDATE courses SET course_name = :courseName, course_description = :courseDescription " +
             " WHERE courses.id = :courseId ";
     private static final String DELETE_COURSE = "DELETE FROM courses WHERE courses.id = :courseId";
 
@@ -68,7 +69,7 @@ public class CourseDaoImpl implements CourseDao {
             entityManager.createNativeQuery(UPDATE_COURSE,Course.class)
                     .setParameter("courseId",course.getId())
                     .setParameter("courseName",course.getCourseName())
-                    .setParameter("courseDescroption",course.getCourseDescription())
+                    .setParameter("courseDescription",course.getCourseDescription())
                     .executeUpdate();
         } catch (DataAccessException e) {
             log.warn("Bad sql queue" + e.getMessage());

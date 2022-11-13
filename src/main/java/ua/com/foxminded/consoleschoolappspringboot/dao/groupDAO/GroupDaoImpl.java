@@ -1,14 +1,13 @@
 package ua.com.foxminded.consoleschoolappspringboot.dao.groupDAO;
 
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ua.com.foxminded.consoleschoolappspringboot.model.Course;
 import ua.com.foxminded.consoleschoolappspringboot.model.Group;
+import ua.com.foxminded.consoleschoolappspringboot.model.GroupsAndCounts;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,19 +22,17 @@ public class GroupDaoImpl implements GroupDao{
     private static final String FIND_ALL_GROUPS = "SELECT * FROM groups";
     private static final String DELETE_ALL_GROUPS = "DELETE FROM groups";
     private static final String FIND_ALL_GROUPS_WITH_LESS_ORE_EQUAL_STUDENTS =
-            "SELECT groups.group_name, COUNT(*) AS count_students\n" +
-                    "FROM groups JOIN students ON groups.id = students.group_id\n" +
-                    "GROUP BY groups.group_name\n" +
-                    "HAVING COUNT(*) <= :numberOfStudents ";
+            """
+                    SELECT groups.group_name, COUNT(*) AS count_students
+                    FROM groups JOIN students ON groups.id = students.group_id
+                    GROUP BY groups.group_name
+                    HAVING COUNT(*) <= :numberOfStudents\s""";
     private static final String UPDATE_GROUP = "UPDATE groups SET group_name = :groupName " +
             " WHERE groups.id = :groupId ";
     private static final String DELETE_GROUP = "DELETE FROM groups WHERE groups.id = :groupId";
 
     @PersistenceContext
     private EntityManager entityManager;
-
-    private final RowMapper<Group> groupRowMapper = new GroupRowMapper();
-    private final RowMapper<String> groupNameRowMapper = new GroupNameRowMapper();
 
     @Transactional
     @Override
@@ -121,15 +118,12 @@ public class GroupDaoImpl implements GroupDao{
 
         try {
             log.info("Find all groups with less ore equal number of students");
-
-            List<Object> result = entityManager.createNativeQuery(FIND_ALL_GROUPS_WITH_LESS_ORE_EQUAL_STUDENTS)
+            List<GroupsAndCounts> result = entityManager.createNativeQuery(FIND_ALL_GROUPS_WITH_LESS_ORE_EQUAL_STUDENTS, GroupsAndCounts.class)
                     .setParameter("numberOfStudents", numberStudents)
                     .getResultList();
-
             List<String> resStringList = new ArrayList<>();
-
             for (var current : result) {
-                resStringList.add(current.toString());
+                resStringList.add(current.getGroupName());
             }
             return resStringList;
         } catch (DataAccessException e) {

@@ -26,8 +26,11 @@ public class MenuPublisher {
     private static final String  LIST_OF_GROUPS = "List of groups";
     private static final String  LIST_OF_COURSES = "List of courses";
 
-    @Autowired
-    private SchoolInitService schoolInitService;
+    private final SchoolInitService schoolInitService;
+
+    public MenuPublisher(SchoolInitService schoolInitService) {
+        this.schoolInitService = schoolInitService;
+    }
 
     public static String showMenu() {
         int menuLine = 1;
