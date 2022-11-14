@@ -1,16 +1,16 @@
 package ua.com.foxminded.consoleschoolappspringboot.dao.groupDAO;
 
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import ua.com.foxminded.consoleschoolappspringboot.model.Course;
 import ua.com.foxminded.consoleschoolappspringboot.model.Group;
+import ua.com.foxminded.consoleschoolappspringboot.model.GroupsAndCounts;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,98 +18,114 @@ import java.util.List;
 @Repository
 public class GroupDaoImpl implements GroupDao{
 
-    private static final String SAVE_GROUP = "INSERT INTO groups(group_name) VALUES(?)";
+    private static final String SAVE_GROUP = "INSERT INTO groups(group_name) VALUES(:groupName)";
     private static final String FIND_ALL_GROUPS = "SELECT * FROM groups";
     private static final String DELETE_ALL_GROUPS = "DELETE FROM groups";
     private static final String FIND_ALL_GROUPS_WITH_LESS_ORE_EQUAL_STUDENTS =
-            "SELECT groups.group_name, COUNT(*) AS count_students\n" +
-                    "FROM groups JOIN students ON groups.id = students.group_id\n" +
-                    "GROUP BY groups.group_name\n" +
-                    "HAVING COUNT(*) <= ? ";
-    private static final String UPDATE_GROUP = "UPDATE groups SET group_name = ? " +
-            " WHERE groups.id = ? ";
-    private static final String DELETE_GROUP = "DELETE FROM groups WHERE groups.id = ?";
+            """
+                    SELECT groups.group_name, COUNT(*) AS count_students
+                    FROM groups JOIN students ON groups.id = students.group_id
+                    GROUP BY groups.group_name
+                    HAVING COUNT(*) <= :numberOfStudents\s""";
+    private static final String UPDATE_GROUP = "UPDATE groups SET group_name = :groupName " +
+            " WHERE groups.id = :groupId ";
+    private static final String DELETE_GROUP = "DELETE FROM groups WHERE groups.id = :groupId";
 
-    @Autowired
-    private  JdbcTemplate jdbcTemplate;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    private final RowMapper<Group> groupRowMapper = new GroupRowMapper();
-    private final RowMapper<String> groupNameRowMapper = new GroupNameRowMapper();
-
+    @Transactional
     @Override
     public void save(Group group) {
         try {
             log.debug("Save group");
-            jdbcTemplate.update(SAVE_GROUP, group.getGroupName());
+            entityManager.createNativeQuery(SAVE_GROUP,Group.class)
+                    .setParameter("groupName",group.getGroupName())
+                    .executeUpdate();
         } catch (DataAccessException e) {
             log.warn("Bad sql queue" + e.getMessage());
         }
     }
 
+    @Transactional
     @Override
     public int[] saveGroupList(List<Group> groups) {
         log.debug("Add list of groups");
-        return jdbcTemplate.batchUpdate(SAVE_GROUP,
-                new BatchPreparedStatementSetter() {
-                    @Override
-                    public void setValues(PreparedStatement ps, int i) throws SQLException {
-                        ps.setString(1, groups.get(i).getGroupName());
-                    }
-                    @Override
-                    public int getBatchSize() {
-                        return groups.size();
-                    }
-                });
+
+        for (Group currentGroup : groups)
+        {
+            entityManager.createNativeQuery(SAVE_GROUP,Course.class)
+                    .setParameter("groupName",currentGroup.getGroupName())
+                    .executeUpdate();
+        }
+        return new int[] {};
     }
 
+    @Transactional
     @Override
     public void update(Group group) {
         try {
             log.debug("Update group");
-            jdbcTemplate.update(UPDATE_GROUP, group.getGroupName(),group.getId());
+            entityManager.createNativeQuery(UPDATE_GROUP,Course.class)
+                    .setParameter("groupId",group.getId())
+                    .setParameter("groupName",group.getGroupName())
+                    .executeUpdate();
         } catch (DataAccessException e) {
             log.warn("Bad sql queue" + e.getMessage());
         }
     }
 
+    @Transactional
     @Override
     public void delete(Group group) {
-
         try {
             log.debug("Delete group");
-            jdbcTemplate.update(DELETE_GROUP, group.getId());
+            entityManager.createNativeQuery(DELETE_GROUP)
+                    .setParameter("groupId",group.getId())
+                    .executeUpdate();
         } catch (DataAccessException e) {
             log.warn("Bad sql queue" + e.getMessage());
         }
     }
 
+    @Transactional
     @Override
     public List<Group> findAll() {
         try {
             log.info("Find all groups");
-            return jdbcTemplate.query(FIND_ALL_GROUPS, groupRowMapper);
+            return entityManager.createNativeQuery(FIND_ALL_GROUPS,Group.class).getResultList();
         } catch (DataAccessException e) {
             log.warn("Bad sql queue" + e.getMessage());
             return new ArrayList<>();
         }
     }
 
+    @Transactional
     @Override
     public void deleteAll() {
         try {
             log.debug("Delete all groups");
-            jdbcTemplate.update(DELETE_ALL_GROUPS);
+            entityManager.createNativeQuery(DELETE_ALL_GROUPS)
+                    .executeUpdate();
         } catch (DataAccessException e) {
             log.warn("Bad sql queue" + e.getMessage());
         }
     }
 
+    @Transactional
     @Override
     public List<String> findAllGroupsWithLessOreEqualStudentsNumber(int numberStudents) {
 
         try {
             log.info("Find all groups with less ore equal number of students");
-            return jdbcTemplate.query(FIND_ALL_GROUPS_WITH_LESS_ORE_EQUAL_STUDENTS, groupNameRowMapper, numberStudents);
+            List<GroupsAndCounts> result = entityManager.createNativeQuery(FIND_ALL_GROUPS_WITH_LESS_ORE_EQUAL_STUDENTS, GroupsAndCounts.class)
+                    .setParameter("numberOfStudents", numberStudents)
+                    .getResultList();
+            List<String> resStringList = new ArrayList<>();
+            for (var current : result) {
+                resStringList.add(current.getGroupName());
+            }
+            return resStringList;
         } catch (DataAccessException e) {
             log.warn("Bad sql queue" + e.getMessage());
             return new ArrayList<>();

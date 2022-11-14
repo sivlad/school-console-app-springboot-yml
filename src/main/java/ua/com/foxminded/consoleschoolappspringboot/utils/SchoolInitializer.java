@@ -1,7 +1,6 @@
 package ua.com.foxminded.consoleschoolappspringboot.utils;
 
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.consoleschoolappspringboot.exception.FileException;
 
@@ -9,8 +8,11 @@ import ua.com.foxminded.consoleschoolappspringboot.exception.FileException;
 @Service
 public class SchoolInitializer {
 
-    @Autowired
-    private SchoolDbInitializer schoolDbInitializer;
+    private final SchoolDbInitializer schoolDbInitializer;
+
+    public SchoolInitializer(SchoolDbInitializer schoolDbInitializer) {
+        this.schoolDbInitializer = schoolDbInitializer;
+    }
 
     public void schoolInitialize() {
         try {

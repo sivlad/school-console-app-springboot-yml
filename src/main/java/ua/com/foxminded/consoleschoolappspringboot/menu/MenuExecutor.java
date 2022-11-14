@@ -16,11 +16,14 @@ import static ua.com.foxminded.consoleschoolappspringboot.menu.MenuPublisher.sho
 @Service
 public class MenuExecutor {
 
-    @Autowired
-    private MenuPublisher publisher;
+    private final MenuPublisher publisher;
 
-    @Autowired
-    private SchoolService schoolService;
+    private final SchoolService schoolService;
+
+    public MenuExecutor(MenuPublisher publisher, SchoolService schoolService) {
+        this.publisher = publisher;
+        this.schoolService = schoolService;
+    }
 
     public void startMenu() {
         System.out.println(showMenu());
@@ -60,7 +63,7 @@ public class MenuExecutor {
     public String menuItem1Execute(int numberOfStudents) {
         List<String> groups = schoolService.findAllGroupsWithLessOrEqualsStudentCount(numberOfStudents);
 
-        System.out.println("Groups with less ore equal students nembers are");
+        System.out.println("Groups with less ore equal students members are");
         log.info("menuItem1 Execute complete");
         return showStringList(groups);
     }

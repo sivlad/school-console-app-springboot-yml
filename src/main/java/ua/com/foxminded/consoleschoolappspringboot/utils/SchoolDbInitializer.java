@@ -1,7 +1,6 @@
 package ua.com.foxminded.consoleschoolappspringboot.utils;
 
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.consoleschoolappspringboot.exception.FileException;
 import ua.com.foxminded.consoleschoolappspringboot.model.Course;
@@ -23,10 +22,13 @@ import java.util.stream.Stream;
 @Service
 public class SchoolDbInitializer {
 
-    @Autowired
-    private SchoolInitService schoolInitService;
+    private final SchoolInitService schoolInitService;
 
     private static final Random RANDOM_GENERATOR = new Random();
+
+    public SchoolDbInitializer(SchoolInitService schoolInitService) {
+        this.schoolInitService = schoolInitService;
+    }
 
     public void deleteAllRowsInDB() {
         schoolInitService.deleteAllRowsInDB();

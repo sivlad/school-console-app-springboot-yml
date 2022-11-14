@@ -6,9 +6,9 @@ public interface StudentsToCoursesDao {
 
     void save(StudentsToCourse studentsToCourse) ;
 
-    void assignStudentToCourse(long studentId, String coureName);
+    void assignStudentToCourse(long studentId, String courseName);
 
-    void deleteCourseFromStudent(long studentId, String coureName);
+    void deleteCourseFromStudent(long studentId, String courseName);
 
     void deleteAll() ;
 }

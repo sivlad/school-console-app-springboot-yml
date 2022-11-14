@@ -2,9 +2,6 @@ package ua.com.foxminded.consoleschoolappspringboot.utils;
 
 
 import lombok.extern.log4j.Log4j2;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import ua.com.foxminded.consoleschoolappspringboot.AppStarter;
 import ua.com.foxminded.consoleschoolappspringboot.exception.FileException;
 
 import java.io.IOException;
@@ -19,8 +16,6 @@ import java.util.stream.Stream;
 public class TxtFileReader {
 
     private final String filename;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(AppStarter.class);
 
     public TxtFileReader(String filename) {
         this.filename = filename;
