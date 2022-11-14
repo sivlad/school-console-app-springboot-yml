@@ -1,9 +1,14 @@
 package ua.com.foxminded.consoleschoolappspringboot.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "students")
 public class Student{
 
@@ -19,38 +24,6 @@ public class Student{
 
     @Column(name = "last_name")
     private String lastName;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public long getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(long groupId) {
-        this.groupId = groupId;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 
     @Override
     public String toString() {

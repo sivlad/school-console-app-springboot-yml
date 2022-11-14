@@ -1,9 +1,14 @@
 package ua.com.foxminded.consoleschoolappspringboot.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
 public class GroupsAndCounts {
 
     @Id
@@ -11,22 +16,6 @@ public class GroupsAndCounts {
 
     @Column
     private long countStudents;
-
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
-
-    public long getCountStudents() {
-        return countStudents;
-    }
-
-    public void setCountStudents(long countStudents) {
-        this.countStudents = countStudents;
-    }
 
     @Override
     public boolean equals(Object o) {

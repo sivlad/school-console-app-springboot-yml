@@ -1,9 +1,14 @@
 package ua.com.foxminded.consoleschoolappspringboot.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "studentsandcourses")
 public class StudentsToCourse{
 
@@ -16,30 +21,6 @@ public class StudentsToCourse{
 
     @Column(name = "course_id")
     private long courseId;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public long getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(long studentId) {
-        this.studentId = studentId;
-    }
-
-    public long getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(long courseId) {
-        this.courseId = courseId;
-    }
 
     @Override
     public boolean equals(Object o) {
