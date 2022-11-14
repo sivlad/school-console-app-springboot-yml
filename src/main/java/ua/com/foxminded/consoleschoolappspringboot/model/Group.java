@@ -43,7 +43,8 @@ public class Group{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Group group = (Group) o;
-        return Objects.equals(id, group.id) && Objects.equals(groupName, group.groupName);
+        return Objects.equals(id, group.id)
+                && Objects.equals(groupName, group.groupName);
     }
 
     @Override

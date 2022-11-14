@@ -1,7 +1,7 @@
 package ua.com.foxminded.consoleschoolappspringboot.model;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.Objects;
 
 @Entity
 @Table(name = "students")
@@ -60,5 +60,21 @@ public class Student{
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return groupId == student.groupId
+                && Objects.equals(id, student.id)
+                && Objects.equals(firstName, student.firstName)
+                && Objects.equals(lastName, student.lastName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, groupId, firstName, lastName);
     }
 }

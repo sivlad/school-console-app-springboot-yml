@@ -1,10 +1,8 @@
 package ua.com.foxminded.consoleschoolappspringboot.model;
 
-import lombok.Data;
-
 import javax.persistence.*;
+import java.util.Objects;
 
-@Data
 @Entity
 @Table(name = "studentsandcourses")
 public class StudentsToCourse{
@@ -25,5 +23,45 @@ public class StudentsToCourse{
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public long getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(long studentId) {
+        this.studentId = studentId;
+    }
+
+    public long getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(long courseId) {
+        this.courseId = courseId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StudentsToCourse that = (StudentsToCourse) o;
+        return studentId == that.studentId
+                && courseId == that.courseId
+                && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, studentId, courseId);
+    }
+
+    @Override
+    public String toString() {
+        return "StudentsToCourse{" +
+                "id=" + id +
+                ", studentId=" + studentId +
+                ", courseId=" + courseId +
+                '}';
     }
 }
