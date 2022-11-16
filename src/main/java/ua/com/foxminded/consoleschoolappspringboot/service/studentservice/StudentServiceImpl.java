@@ -2,54 +2,55 @@ package ua.com.foxminded.consoleschoolappspringboot.service.studentservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.foxminded.consoleschoolappspringboot.dao.studentDAO.StudentDao;
+import ua.com.foxminded.consoleschoolappspringboot.dao.studentDAO.StudentRepository;
 import ua.com.foxminded.consoleschoolappspringboot.model.Student;
 
 import java.util.List;
 
 @Service
-public class StudentServiceImpl implements StudentService{
+public class StudentServiceImpl implements StudentService {
 
     @Autowired
-    StudentDao studentDao;
+    StudentRepository studentRepository;
 
     @Override
     public void save(String groupName, String firstName, String lastName) {
-        studentDao.save(groupName,firstName,lastName);
+        studentRepository.save(groupName, firstName, lastName);
     }
 
     @Override
     public void save(Student student) {
-        studentDao.save(student);
+        studentRepository.save(student);
     }
 
     @Override
     public int[] saveStudentsList(List<Student> students) {
-        return studentDao.saveStudentsList(students);
+        studentRepository.saveAll(students);
+        return new int[1];
     }
 
     @Override
     public void update(Student student) {
-        studentDao.update(student);
+        studentRepository.save(student);
     }
 
     @Override
     public void delete(long studentId) {
-        studentDao.delete(studentId);
+        studentRepository.delete(studentId);
     }
 
     @Override
     public List<Student> findAll() {
-        return studentDao.findAll();
+        return studentRepository.findAll();
     }
 
     @Override
     public List<Student> findAllFromCourse(String courseName) {
-        return studentDao.findAllFromCourse(courseName);
+        return studentRepository.findAllFromCourse(courseName);
     }
 
     @Override
     public void deleteAll() {
-        studentDao.deleteAll();
+        studentRepository.deleteAll();
     }
 }

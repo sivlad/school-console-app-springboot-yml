@@ -1,50 +1,60 @@
 package ua.com.foxminded.consoleschoolappspringboot.service.courseservice;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.foxminded.consoleschoolappspringboot.dao.courseDAO.CourseDao;
+import ua.com.foxminded.consoleschoolappspringboot.dao.courseDAO.CourseRepository;
 import ua.com.foxminded.consoleschoolappspringboot.model.Course;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+@Log4j2
 @Service
-public class CourseServiceImpl implements CourseService{
+public class CourseServiceImpl implements CourseService {
 
     @Autowired
-    CourseDao courseDao;
+    CourseRepository courseRepository;
 
     @Override
     public void save(Course course) {
-        courseDao.save(course);
+        courseRepository.save(course);
     }
 
     @Override
     public int[] saveCourseList(List<Course> courses) {
-        return courseDao.saveCourseList(courses);
+        courseRepository.saveAll(courses);
+        return new int[1];
     }
 
     @Override
     public void update(Course course) {
-        courseDao.update(course);
+        courseRepository.save(course);
     }
 
     @Override
     public void delete(Course course) {
-        courseDao.delete(course);
+        courseRepository.delete(course);
     }
 
     @Override
     public List<Course> findAll() {
-        return courseDao.findAll();
+        return courseRepository.findAll();
     }
 
     @Override
     public List<Course> findAllCoursesFromStudent(long studentId) {
-        return courseDao.findAllCoursesFromStudent(studentId);
+        try {
+            return courseRepository.findAllCoursesFromStudent(studentId);
+        } catch (SQLException e) {
+            log.warn("Bad sql queue" + e.getMessage());
+            return new ArrayList<>();
+        }
     }
 
     @Override
     public void deleteAll() {
-        courseDao.deleteAll();
+        courseRepository.deleteAll();
     }
 }
