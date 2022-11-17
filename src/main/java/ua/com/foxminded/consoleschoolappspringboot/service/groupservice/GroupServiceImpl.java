@@ -59,7 +59,7 @@ public class GroupServiceImpl implements GroupService{
             }
             return resStringList;
         } catch (SQLException e) {
-            log.warn("Bad sql queue" + e.getMessage());
+            log.warn("Bad users input" + e.getMessage());
             return new ArrayList<>();
         }
     }

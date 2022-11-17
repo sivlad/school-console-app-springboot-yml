@@ -35,7 +35,7 @@ public class StudentsToCoursesDaoImpl implements StudentsToCoursesDao{
                     .setParameter("courseId",studentsToCourse.getCourseId())
                     .executeUpdate();
         } catch (DataAccessException e) {
-            log.warn("Bad sql queue" + e.getMessage());
+            log.warn("Bad users input" + e.getMessage());
         }
     }
 

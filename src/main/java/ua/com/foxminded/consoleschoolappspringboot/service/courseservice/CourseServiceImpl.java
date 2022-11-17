@@ -48,7 +48,7 @@ public class CourseServiceImpl implements CourseService {
         try {
             return courseRepository.findAllCoursesFromStudent(studentId);
         } catch (SQLException e) {
-            log.warn("Bad sql queue" + e.getMessage());
+            log.warn("Bad users input" + e.getMessage());
             return new ArrayList<>();
         }
     }

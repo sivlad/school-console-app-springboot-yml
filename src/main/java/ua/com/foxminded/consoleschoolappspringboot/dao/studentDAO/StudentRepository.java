@@ -24,4 +24,5 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     @Query(value = DELETE_STUDENT, nativeQuery = true)
     void delete(@Param("studentId") long studentId) ;
+
 }

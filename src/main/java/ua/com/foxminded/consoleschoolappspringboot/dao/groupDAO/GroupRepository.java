@@ -20,4 +20,5 @@ public interface GroupRepository extends JpaRepository<Group,Long> {
 
     @Query(value = FIND_ALL_GROUPS_WITH_LESS_ORE_EQUAL_STUDENTS, nativeQuery = true)
     List<GroupsAndCounts> findAllCoursesFromStudent(@Param("numberOfStudents") int count) throws SQLException;
+
 }

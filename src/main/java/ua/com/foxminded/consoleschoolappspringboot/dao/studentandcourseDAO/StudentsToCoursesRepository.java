@@ -18,4 +18,5 @@ public interface StudentsToCoursesRepository extends JpaRepository<StudentsToCou
 
     @Query(value = DELETE_COURSE_FROM_STUDENT, nativeQuery = true)
     void deleteCourseFromStudent(@Param("studentId") long studentId,@Param("courseName") String courseName);
+
 }

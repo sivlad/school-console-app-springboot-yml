@@ -20,4 +20,5 @@ public interface CourseRepository extends JpaRepository<Course,Long> {
 
     @Query(value = FIND_ALL_COURSES_FROM_STUDENT, nativeQuery = true)
     List<Course> findAllCoursesFromStudent(@Param("studentId") long count) throws SQLException;
+
 }
