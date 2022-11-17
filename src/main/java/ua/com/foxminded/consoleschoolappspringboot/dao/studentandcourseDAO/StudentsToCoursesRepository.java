@@ -13,12 +13,6 @@ public interface StudentsToCoursesRepository extends JpaRepository<StudentsToCou
             " WHERE  studentsandcourses.student_id = :studentId AND " +
             " studentsandcourses.course_id = (SELECT courses.id FROM courses WHERE courses.course_name = :courseName) ";
 
-    @Override
-    <S extends StudentsToCourse> S save(S entity);
-
-    @Override
-    void deleteAll();
-
     @Query(value = ASSIGN_STUDENT_TO_COURSE, nativeQuery = true)
     void assignStudentToCourse(@Param("studentId") long studentId,@Param("courseName") String courseName);
 

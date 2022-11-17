@@ -18,20 +18,6 @@ public interface CourseRepository extends JpaRepository<Course,Long> {
             JOIN Student students_ ON studentsandcourses_.studentId = students_.id
             WHERE students_.id = :studentId\s""";
 
-    @Override
-    <S extends Course> S save(S entity);
-
-    @Override
-    <S extends Course> List<S> saveAll(Iterable<S> entities);
-
-    List<Course> findAll();
-
     @Query(value = FIND_ALL_COURSES_FROM_STUDENT, nativeQuery = true)
     List<Course> findAllCoursesFromStudent(@Param("studentId") long count) throws SQLException;
-
-    @Override
-    void delete(Course entity);
-
-    @Override
-    void deleteAll();
 }

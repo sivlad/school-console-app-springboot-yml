@@ -18,21 +18,6 @@ public interface GroupRepository extends JpaRepository<Group,Long> {
                     GROUP BY groups.group_name
                     HAVING COUNT(*) <= :numberOfStudents\s""";
 
-    @Override
-    <S extends Group> S save(S group);
-
-    @Override
-    <S extends Group> List<S> saveAll(Iterable<S> groups);
-
-    @Override
-    void delete(Group group);
-
-    @Override
-    List<Group> findAll();
-
-    @Override
-    void deleteAll();
-
     @Query(value = FIND_ALL_GROUPS_WITH_LESS_ORE_EQUAL_STUDENTS, nativeQuery = true)
     List<GroupsAndCounts> findAllCoursesFromStudent(@Param("numberOfStudents") int count) throws SQLException;
 }

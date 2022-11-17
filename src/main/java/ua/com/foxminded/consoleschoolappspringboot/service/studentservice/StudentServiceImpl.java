@@ -15,7 +15,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void save(String groupName, String firstName, String lastName) {
-        studentRepository.save(groupName, firstName, lastName);
+        studentRepository.saveStudentByStringParametres(groupName, firstName, lastName);
     }
 
     @Override

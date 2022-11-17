@@ -16,20 +16,8 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
             " JOIN courses ON courses.id = studentsandcourses.course_id WHERE courses.course_name = :courseName ";
     String DELETE_STUDENT = "DELETE FROM students WHERE students.id = :studentId";
 
-    @Override
-    <S extends Student> S save(S entity);
-
-    @Override
-    <S extends Student> List<S> saveAll(Iterable<S> entities);
-
-    @Override
-    void deleteAll();
-
-    @Override
-    List<Student> findAll();
-
     @Query(value = SAVE_STUDENT, nativeQuery = true)
-    void save(@Param("groupName") String groupName, @Param("firstName") String firstName, @Param("lastName") String lastName);
+    void saveStudentByStringParametres(@Param("groupName") String groupName, @Param("firstName") String firstName, @Param("lastName") String lastName);
 
     @Query(value = FIND_ALL_STUDENTS_FROM_COURSE, nativeQuery = true)
     List<Student> findAllFromCourse(@Param("courseName") String courseName);
